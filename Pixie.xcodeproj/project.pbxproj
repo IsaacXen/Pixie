@@ -7,20 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FFDF89412351DB19005877DC /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89402351DB19005877DC /* HudView.swift */; };
+		FFDF89462351E1B6005877DC /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89452351E1B6005877DC /* DisplayLink.swift */; };
+		FFDF894C2351EEA3005877DC /* DisplayLinkSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF894B2351EEA3005877DC /* DisplayLinkSubscriber.swift */; };
+		FFDF89502352FDFF005877DC /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF894F2352FDFF005877DC /* ScreenCapture.swift */; };
+		FFDF89522353072C005877DC /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89512353072C005877DC /* PreferencesController.swift */; };
 		FFF3A047235091F100FF4110 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A046235091F100FF4110 /* AppDelegate.swift */; };
-		FFF3A049235091F100FF4110 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A048235091F100FF4110 /* ViewController.swift */; };
+		FFF3A049235091F100FF4110 /* MagnifierViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A048235091F100FF4110 /* MagnifierViewController.swift */; };
 		FFF3A04B235091F400FF4110 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFF3A04A235091F400FF4110 /* Assets.xcassets */; };
 		FFF3A04E235091F400FF4110 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFF3A04C235091F400FF4110 /* Main.storyboard */; };
+		FFF3A0572350AA4100FF4110 /* MagnifierWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A0562350AA4100FF4110 /* MagnifierWindowController.swift */; };
+		FFF3A05C235196C800FF4110 /* MagnifierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A05B235196C800FF4110 /* MagnifierView.swift */; };
+		FFF3A05E2351971200FF4110 /* DisplayLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A05D2351971200FF4110 /* DisplayLinkView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FFDF89402351DB19005877DC /* HudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
+		FFDF89452351E1B6005877DC /* DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLink.swift; sourceTree = "<group>"; };
+		FFDF894B2351EEA3005877DC /* DisplayLinkSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLinkSubscriber.swift; sourceTree = "<group>"; };
+		FFDF894F2352FDFF005877DC /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
+		FFDF89512353072C005877DC /* PreferencesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		FFF3A043235091F100FF4110 /* Pixie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFF3A046235091F100FF4110 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FFF3A048235091F100FF4110 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FFF3A048235091F100FF4110 /* MagnifierViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifierViewController.swift; sourceTree = "<group>"; };
 		FFF3A04A235091F400FF4110 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FFF3A04D235091F400FF4110 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FFF3A04F235091F400FF4110 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFF3A050235091F400FF4110 /* Pixie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pixie.entitlements; sourceTree = "<group>"; };
+		FFF3A0562350AA4100FF4110 /* MagnifierWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifierWindowController.swift; sourceTree = "<group>"; };
+		FFF3A05B235196C800FF4110 /* MagnifierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifierView.swift; sourceTree = "<group>"; };
+		FFF3A05D2351971200FF4110 /* DisplayLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLinkView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +50,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FFB6C75C23545EF8007A5013 /* ScreenCapture */ = {
+			isa = PBXGroup;
+			children = (
+				FFDF894F2352FDFF005877DC /* ScreenCapture.swift */,
+			);
+			path = ScreenCapture;
+			sourceTree = "<group>";
+		};
+		FFDF89422351DD48005877DC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FFB6C75C23545EF8007A5013 /* ScreenCapture */,
+				FFDF894D23523F08005877DC /* Display Link */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		FFDF894D23523F08005877DC /* Display Link */ = {
+			isa = PBXGroup;
+			children = (
+				FFDF89452351E1B6005877DC /* DisplayLink.swift */,
+				FFDF894B2351EEA3005877DC /* DisplayLinkSubscriber.swift */,
+			);
+			path = "Display Link";
+			sourceTree = "<group>";
+		};
 		FFF3A03A235091F100FF4110 = {
 			isa = PBXGroup;
 			children = (
@@ -54,13 +96,43 @@
 			isa = PBXGroup;
 			children = (
 				FFF3A046235091F100FF4110 /* AppDelegate.swift */,
-				FFF3A048235091F100FF4110 /* ViewController.swift */,
+				FFF3A0602351D7AD00FF4110 /* Controllers */,
+				FFF3A05F2351D7A700FF4110 /* Views */,
+				FFDF89422351DD48005877DC /* Helpers */,
+				FFF3A0582350AB7400FF4110 /* Supporting Files */,
+			);
+			path = Pixie;
+			sourceTree = "<group>";
+		};
+		FFF3A0582350AB7400FF4110 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
 				FFF3A04A235091F400FF4110 /* Assets.xcassets */,
 				FFF3A04C235091F400FF4110 /* Main.storyboard */,
 				FFF3A04F235091F400FF4110 /* Info.plist */,
 				FFF3A050235091F400FF4110 /* Pixie.entitlements */,
 			);
-			path = Pixie;
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FFF3A05F2351D7A700FF4110 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FFF3A05B235196C800FF4110 /* MagnifierView.swift */,
+				FFDF89402351DB19005877DC /* HudView.swift */,
+				FFF3A05D2351971200FF4110 /* DisplayLinkView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FFF3A0602351D7AD00FF4110 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FFF3A0562350AA4100FF4110 /* MagnifierWindowController.swift */,
+				FFF3A048235091F100FF4110 /* MagnifierViewController.swift */,
+				FFDF89512353072C005877DC /* PreferencesController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,8 +205,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFF3A049235091F100FF4110 /* ViewController.swift in Sources */,
+				FFDF89522353072C005877DC /* PreferencesController.swift in Sources */,
+				FFDF89462351E1B6005877DC /* DisplayLink.swift in Sources */,
+				FFDF894C2351EEA3005877DC /* DisplayLinkSubscriber.swift in Sources */,
+				FFF3A0572350AA4100FF4110 /* MagnifierWindowController.swift in Sources */,
+				FFF3A049235091F100FF4110 /* MagnifierViewController.swift in Sources */,
+				FFDF89412351DB19005877DC /* HudView.swift in Sources */,
+				FFF3A05E2351971200FF4110 /* DisplayLinkView.swift in Sources */,
+				FFF3A05C235196C800FF4110 /* MagnifierView.swift in Sources */,
 				FFF3A047235091F100FF4110 /* AppDelegate.swift in Sources */,
+				FFDF89502352FDFF005877DC /* ScreenCapture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,12 +349,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Pixie/Pixie.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Pixie/Supporting Files/Pixie.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 8BBVVM36W4;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = Pixie/Info.plist;
+				INFOPLIST_FILE = "Pixie/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -289,12 +369,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Pixie/Pixie.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Pixie/Supporting Files/Pixie.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 8BBVVM36W4;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = Pixie/Info.plist;
+				INFOPLIST_FILE = "Pixie/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

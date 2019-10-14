@@ -1,22 +1,28 @@
 import Cocoa
 
+/// The window controller of the main magnifier window.
 class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     
-    convenience init() {
-        self.init(windowNibName: "")
-    }
+    // MARK: - Loading Window
     
     override func loadWindow() {
         window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable, .resizable, .miniaturizable, .fullSizeContentView], backing: .buffered, defer: true)
         window?.minSize = NSSize(width: 300, height: 300)
-        window?.level = .floating
+        // TODO: make floating window an option on main menu
+//        window?.level = .floating
         window?.collectionBehavior = [.init(rawValue: 0), .managed, .participatesInCycle]
         window?.delegate = self
         window?.title = "Pixie"
+        window?.titlebarAppearsTransparent = true
     }
     
     override func windowDidLoad() {
+        // load content view conteoller
         contentViewController = MagnifierViewController()
+        // setup frame autosave
+        shouldCascadeWindows = false
+        windowFrameAutosaveName = "magnifierWindow"
+        // setup tracking area
         updateTrackingAreas()
     }
     
@@ -24,11 +30,13 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         updateTrackingAreas()
     }
     
+    
+    
     // MARK: - Tracking Area
 
     private var _trackingArea: NSTrackingArea?
     
-    func updateTrackingAreas() {
+    private func updateTrackingAreas() {
         guard let contentView = window?.contentView else { return }
         
         if let tr = _trackingArea {
@@ -42,18 +50,26 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     
     // MARK: - Event Handling
     
+    // 1. Show or hide window titlebar when mouse entered and exited.
+    
     override func mouseEntered(with event: NSEvent) {
-        titleBar?.animator().alphaValue = 1
+        _titleBar?.animator().alphaValue = 1
         super.mouseEntered(with: event)
     }
     
     override func mouseExited(with event: NSEvent) {
-        titleBar?.animator().alphaValue = 0
+        _titleBar?.animator().alphaValue = 0
         super.mouseExited(with: event)
     }
     
-    var titleBar: NSView? {
+    private var _titleBar: NSView? {
         window?.standardWindowButton(.closeButton)?.superview?.superview
+    }
+    
+    // MARK: - Init
+    
+    convenience init() {
+        self.init(windowNibName: "")
     }
     
 }

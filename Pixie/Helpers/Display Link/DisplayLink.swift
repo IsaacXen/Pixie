@@ -8,7 +8,7 @@ public class DisplayLink: NSObject {
     
     var autoManagedRunningState: Bool = true
     
-    private var _subscribers = WeakArray<DisplayLinkSubscriber>()
+    private let _subscribers = NSPointerArray.weakObjects()
     
     private override init() {
         super.init()
@@ -24,10 +24,13 @@ public class DisplayLink: NSObject {
     }
 
     private func notifySubscribers(with currentTime: CVTimeStamp, outputTime: CVTimeStamp) {
-        _subscribers.forEach { [weak self] subscriber in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                subscriber?.displayLink(self, willOutputFrameInTime: outputTime, currentTime: currentTime)
+        _subscribers.compact()
+        
+        var iterator = NSFastEnumerationIterator(_subscribers)
+        while let subscriber = iterator.next() as? DisplayLinkSubscriber {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                subscriber.displayLink(self, willOutputFrameInTime: outputTime, currentTime: currentTime)
             }
         }
     }
@@ -38,36 +41,95 @@ public class DisplayLink: NSObject {
     
     func startRunning() {
         CVDisplayLinkStart(_displayLink)
+        print("DisplayLink Started")
     }
     
     func stopRunning() {
         CVDisplayLinkStop(_displayLink)
+        print("DisplayLink Stopped")
     }
     
     private func updateRunningStateIfNeeded() {
+        _subscribers.compact()
+        
         if autoManagedRunningState {
-            if _subscribers.isCompactEmpty && isRunning {
+            if _subscribers.count <= 0 && isRunning {
                 stopRunning()
-            } else if !_subscribers.isCompactEmpty && !isRunning {
+            } else if _subscribers.count > 0 && !isRunning {
                 startRunning()
             }
         }
-        print(#function, isRunning)
     }
     
-    public func addSubscriber(_ subscriber: DisplayLinkSubscriber) {
-        _subscribers.append(subscriber)
+    public func addSubscriber(_ newSubscriber: DisplayLinkSubscriber) {
+        _subscribers.compact()
+        
+        var iterator = NSFastEnumerationIterator(_subscribers)
+        while let subscriber = iterator.next() as? DisplayLinkSubscriber {
+            if (subscriber as? NSObject) == (newSubscriber as? NSObject) {
+                return
+            }
+        }
+        
+        _subscribers.addPointer(Unmanaged.passUnretained(newSubscriber).toOpaque())
         updateRunningStateIfNeeded()
     }
     
     public func removeSubscriber(_ subscriber: DisplayLinkSubscriber) {
-        if let index = _subscribers.firstIndex(where: {
-            guard let lhs = $0 as? NSObject, let rhs = subscriber as? NSObject else { return false }
-            return lhs == rhs
-        }) {
-            _subscribers.remove(at: index)
+        _subscribers.compact()
+        
+        var index: Int = -1
+        
+        var iterator = NSFastEnumerationIterator(_subscribers)
+        while let element = iterator.next() as? DisplayLinkSubscriber {
+            index += 1
+            if (element as? NSObject) == (subscriber as? NSObject) { break }
         }
-        updateRunningStateIfNeeded()
+        
+        if index >= 0 && index < _subscribers.count {
+            _subscribers.removePointer(at: index)
+            updateRunningStateIfNeeded()
+        }
+    }
+    
+}
+
+extension NSPointerArray {
+
+    func add(_ newElement: AnyObject) {
+        addPointer(Unmanaged.passUnretained(newElement).toOpaque())
+    }
+    
+    func forEach(_ body: (UnsafeMutableRawPointer?) -> Void) {
+        for index in 0..<count {
+            body(pointer(at: index))
+        }
+    }
+    
+    func compactForEach(_ body: (UnsafeMutableRawPointer) -> Void) {
+        forEach {
+            if let pointer = $0 {
+                body(pointer)
+            }
+        }
+    }
+    
+    func forEach<T: AnyObject>(_ objectType: T.Type, _ body: (T?) -> Void) {
+        for index in 0..<count {
+            if let p = pointer(at: index) {
+                body(Unmanaged<T>.fromOpaque(p).takeUnretainedValue())
+            } else {
+                body(nil)
+            }
+        }
+    }
+    
+    func compactForEach<T: AnyObject>(_ objectType: T.Type, _ body: (T) -> Void) {
+        forEach(objectType) {
+            if let element = $0 {
+                body(element)
+            }
+        }
     }
     
 }

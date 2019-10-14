@@ -1,66 +1,40 @@
 import Cocoa
 
-class MagnifierView: DisplayLinkView {
+class MagnifierView: LayerHostedView, DisplayLinkSubscriber {
     
-    var magnificationFactor: CGFloat = 16
+    var magnificationFactor: CGFloat = 32
     
     private let _screenLayer = CALayer()
-    private let _hotSpotLayer = CAShapeLayer()
-    
-    private var _needDisplayHotSpotLayer: Bool = false
     
     override func setupLayer() {
         layer?.addSublayer(_screenLayer)
-        layer?.addSublayer(_hotSpotLayer)
         
         _screenLayer.contentsGravity = .center
         _screenLayer.magnificationFilter = .nearest
-        _screenLayer.contentsScale = (NSScreen.main?.backingScaleFactor ?? 1) / magnificationFactor
-        
     }
     
     override func updateLayer() {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
+
+        let mouseLocation = NSEvent.mouseLocation
         
+        let w = ceil((bounds.width / magnificationFactor - 1) / 2) + 1
+        let h = ceil((bounds.height / magnificationFactor - 1) / 2) + 1
+                
+        let (scale, offset, image) = ScreenCapture.captureScreen(centerOf: mouseLocation, dw: w, dh: h)
+        _screenLayer.contents = image
         _screenLayer.frame = bounds
-        
-         let size = NSMakeSize(ceil(bounds.width / magnificationFactor), ceil(bounds.height / magnificationFactor))
-        _screenLayer.contents = ScreenCapture.captureScreen(at: NSEvent.mouseLocation, size: size)
+            .offsetBy(dx: -offset.x * magnificationFactor / 2, dy: offset.y * -magnificationFactor / 2)
+            .offsetBy(dx: magnificationFactor / 4, dy: -magnificationFactor / 4)
+
+        _screenLayer.contentsScale = 1 / magnificationFactor * scale
         
         CATransaction.commit()
     }
     
-}
-
-class ScreenCapture: NSObject {
-
-    enum AuthorizationStatus {
-        case authorized, denied
-    }
-    
-    static var authorizationStatus: AuthorizationStatus {
-        let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as! [[String: AnyObject]]
-        
-        let window = windows.filter {
-            kCGMainMenuWindowLevel != $0[kCGWindowLayer as String] as! CGWindowLevel && $0[kCGWindowName as String] != nil
-        }
-        
-        return window.count > 0 ? .authorized : .denied
-    }
-
-    static func captureScreen(at origin: NSPoint, size: NSSize) -> CGImage? {
-        guard let screen = NSScreen.main else {
-            return nil
-        }
-        
-        let origin = NSMakePoint(origin.x, screen.frame.height - origin.y)
-        let dX = size.width / 2
-        let dY = size.height / 2
-        
-        let rect = NSRect(origin: origin, size: .zero).insetBy(dx: -dX, dy: -dY)
-        
-        return CGWindowListCreateImage(rect, [.optionOnScreenOnly], kCGNullWindowID, [])
+    func displayLink(_ displayLink: DisplayLink, willOutputFrameInTime outputTime: CVTimeStamp, currentTime: CVTimeStamp) {
+        needsDisplay = true
     }
     
 }
