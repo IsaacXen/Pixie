@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF8840632354A271003A912A /* DefaultsControllerSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */; };
+		FF8840652354A294003A912A /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840642354A294003A912A /* Default.swift */; };
+		FF8840672354A2B2003A912A /* Default+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840662354A2B2003A912A /* Default+UserDefaults.swift */; };
+		FFAC437C23584CC600136AA6 /* NSPointerArray+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAC437B23584CC600136AA6 /* NSPointerArray+Extension.swift */; };
 		FFDF89412351DB19005877DC /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89402351DB19005877DC /* HudView.swift */; };
 		FFDF89462351E1B6005877DC /* DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89452351E1B6005877DC /* DisplayLink.swift */; };
 		FFDF894C2351EEA3005877DC /* DisplayLinkSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF894B2351EEA3005877DC /* DisplayLinkSubscriber.swift */; };
 		FFDF89502352FDFF005877DC /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF894F2352FDFF005877DC /* ScreenCapture.swift */; };
-		FFDF89522353072C005877DC /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89512353072C005877DC /* PreferencesController.swift */; };
+		FFDF89522353072C005877DC /* DefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89512353072C005877DC /* DefaultsController.swift */; };
 		FFF3A047235091F100FF4110 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A046235091F100FF4110 /* AppDelegate.swift */; };
 		FFF3A049235091F100FF4110 /* MagnifierViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A048235091F100FF4110 /* MagnifierViewController.swift */; };
 		FFF3A04B235091F400FF4110 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFF3A04A235091F400FF4110 /* Assets.xcassets */; };
@@ -22,11 +26,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsControllerSubscriber.swift; sourceTree = "<group>"; };
+		FF8840642354A294003A912A /* Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Default.swift; sourceTree = "<group>"; };
+		FF8840662354A2B2003A912A /* Default+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Default+UserDefaults.swift"; sourceTree = "<group>"; };
+		FFAC437B23584CC600136AA6 /* NSPointerArray+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPointerArray+Extension.swift"; sourceTree = "<group>"; };
 		FFDF89402351DB19005877DC /* HudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		FFDF89452351E1B6005877DC /* DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLink.swift; sourceTree = "<group>"; };
 		FFDF894B2351EEA3005877DC /* DisplayLinkSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayLinkSubscriber.swift; sourceTree = "<group>"; };
 		FFDF894F2352FDFF005877DC /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
-		FFDF89512353072C005877DC /* PreferencesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
+		FFDF89512353072C005877DC /* DefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsController.swift; sourceTree = "<group>"; };
 		FFF3A043235091F100FF4110 /* Pixie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFF3A046235091F100FF4110 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFF3A048235091F100FF4110 /* MagnifierViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifierViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +58,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FF8840612354A223003A912A /* DefaultsController */ = {
+			isa = PBXGroup;
+			children = (
+				FFDF89512353072C005877DC /* DefaultsController.swift */,
+				FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */,
+				FF8840642354A294003A912A /* Default.swift */,
+				FF8840662354A2B2003A912A /* Default+UserDefaults.swift */,
+			);
+			path = DefaultsController;
+			sourceTree = "<group>";
+		};
 		FFB6C75C23545EF8007A5013 /* ScreenCapture */ = {
 			isa = PBXGroup;
 			children = (
@@ -61,8 +80,10 @@
 		FFDF89422351DD48005877DC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				FF8840612354A223003A912A /* DefaultsController */,
 				FFB6C75C23545EF8007A5013 /* ScreenCapture */,
 				FFDF894D23523F08005877DC /* Display Link */,
+				FFAC437B23584CC600136AA6 /* NSPointerArray+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -130,7 +151,6 @@
 			children = (
 				FFF3A0562350AA4100FF4110 /* MagnifierWindowController.swift */,
 				FFF3A048235091F100FF4110 /* MagnifierViewController.swift */,
-				FFDF89512353072C005877DC /* PreferencesController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -205,9 +225,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFDF89522353072C005877DC /* PreferencesController.swift in Sources */,
+				FF8840632354A271003A912A /* DefaultsControllerSubscriber.swift in Sources */,
+				FF8840652354A294003A912A /* Default.swift in Sources */,
+				FF8840672354A2B2003A912A /* Default+UserDefaults.swift in Sources */,
+				FFDF89522353072C005877DC /* DefaultsController.swift in Sources */,
 				FFDF89462351E1B6005877DC /* DisplayLink.swift in Sources */,
 				FFDF894C2351EEA3005877DC /* DisplayLinkSubscriber.swift in Sources */,
+				FFAC437C23584CC600136AA6 /* NSPointerArray+Extension.swift in Sources */,
 				FFF3A0572350AA4100FF4110 /* MagnifierWindowController.swift in Sources */,
 				FFF3A049235091F100FF4110 /* MagnifierViewController.swift in Sources */,
 				FFDF89412351DB19005877DC /* HudView.swift in Sources */,

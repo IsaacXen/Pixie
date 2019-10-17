@@ -80,9 +80,7 @@ class HudView: LayerHostedView {
 }
 
 extension CGRect {
-    
     func fullyContains(_ otherRect: CGRect) -> Bool {
         return minX <= otherRect.minX && maxX >= otherRect.maxX && minY <= otherRect.minY && maxY >= otherRect.maxY
     }
-    
 }

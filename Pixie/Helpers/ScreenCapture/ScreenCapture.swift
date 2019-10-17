@@ -40,7 +40,9 @@ class ScreenCapture: NSObject {
         let captureRectInPt = centerRectInPt.insetBy(dx: -dwInPt, dy: -dhInPt)
         
         let image = CGWindowListCreateImage(captureRectInPt, [.optionOnScreenOnly], kCGNullWindowID, [])
-                
+        
+        // TODO: Exclude self window
+        
         return (
             screen.backingScaleFactor,
             NSMakePoint(dx, dy),

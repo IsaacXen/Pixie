@@ -8,12 +8,10 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     override func loadWindow() {
         window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable, .resizable, .miniaturizable, .fullSizeContentView], backing: .buffered, defer: true)
         window?.minSize = NSSize(width: 300, height: 300)
-        // TODO: make floating window an option on main menu
-//        window?.level = .floating
-        window?.collectionBehavior = [.init(rawValue: 0), .managed, .participatesInCycle]
+        window?.collectionBehavior = [.init(rawValue: 0), .managed, .participatesInCycle, .fullScreenPrimary]
         window?.delegate = self
         window?.title = "Pixie"
-        window?.titlebarAppearsTransparent = true
+        window?.tabbingMode = .disallowed
     }
     
     override func windowDidLoad() {
@@ -22,30 +20,58 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         // setup frame autosave
         shouldCascadeWindows = false
         windowFrameAutosaveName = "magnifierWindow"
+        
+        let shouldFloat = DefaultsController.shared.retrive(.floatingMagnifierWindow)
+        window?.level = shouldFloat ? .floating : .normal
+        
         // setup tracking area
         updateTrackingAreas()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(3)) { [weak self] in
+            if !(self?.window?.frame.contains(NSEvent.mouseLocation) ?? false) {
+                self?._titleBar?.animator().alphaValue = 0
+            }
+        }
     }
     
     func windowDidEndLiveResize(_ notification: Notification) {
         updateTrackingAreas()
     }
+
+    func windowWillEnterFullScreen(_ notification: Notification) {
+        updateTrackingAreas()
+    }
     
+    func windowDidEnterFullScreen(_ notification: Notification) {
+        _titleBar?.alphaValue = 1
+    }
     
+    func windowWillExitFullScreen(_ notification: Notification) {
+        _titleBar?.alphaValue = 0
+    }
+    
+    func windowDidExitFullScreen(_ notification: Notification) {
+        updateTrackingAreas()
+    }
     
     // MARK: - Tracking Area
 
     private var _trackingArea: NSTrackingArea?
     
     private func updateTrackingAreas() {
-        guard let contentView = window?.contentView else { return }
+        guard
+            let window = window,
+            let contentView = window.contentView
+        else { return }
         
         if let tr = _trackingArea {
             contentView.removeTrackingArea(tr)
         }
         
-        _trackingArea = NSTrackingArea(rect: contentView.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: nil)
-        
-        contentView.addTrackingArea(_trackingArea!)
+        if !window.styleMask.contains(.fullScreen) {
+            _trackingArea = NSTrackingArea(rect: contentView.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: nil)
+            contentView.addTrackingArea(_trackingArea!)
+        }
     }
     
     // MARK: - Event Handling
@@ -70,6 +96,28 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     
     convenience init() {
         self.init(windowNibName: "")
+    }
+    
+}
+
+extension MagnifierWindowController: NSMenuItemValidation {
+   
+    @IBAction func toggleWindowFloating(_ sender: NSMenuItem?) {
+        let isFloating = window?.level == .some(.floating)
+        window?.level = isFloating ? .normal : .floating
+        
+        DefaultsController.shared.set(.floatingMagnifierWindow, to: !isFloating)
+    }
+
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.action {
+            case #selector(toggleWindowFloating):
+                menuItem.state = window?.level == .some(.floating) ? .on : .off
+                return true
+            
+            default:
+                return true
+        }
     }
     
 }

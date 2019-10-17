@@ -1,13 +1,21 @@
 import AppKit
 
+/// Subscription-based NSTimer-liked notifier based on display refresh rate.
 public class DisplayLink: NSObject {
     
     public static let shared = DisplayLink()
     
+    /// The internal display link object this object managed.
     private var _displayLink: CVDisplayLink!
     
+    /// Automatically stop and start display link based on subscriber count.
+    ///
+    /// When there's no subscriber, This object stop running displaylink. If there's at lease one subscriber, the display link will start running.
+    ///
+    /// Set this to `false` to disable this feature. This default value of this property is `true`.
     var autoManagedRunningState: Bool = true
     
+    /// The internal weak references array to subscriber objects.
     private let _subscribers = NSPointerArray.weakObjects()
     
     private override init() {
@@ -23,6 +31,7 @@ public class DisplayLink: NSObject {
         }, Unmanaged.passUnretained(self).toOpaque())
     }
 
+    /// The internal display link callback function. This is the place to notify the delegate.
     private func notifySubscribers(with currentTime: CVTimeStamp, outputTime: CVTimeStamp) {
         _subscribers.compact()
         
@@ -35,18 +44,23 @@ public class DisplayLink: NSObject {
         }
     }
     
+    /// Return the running status on the current display link.
     var isRunning: Bool {
         CVDisplayLinkIsRunning(_displayLink)
     }
     
+    /// Start running the display link.
+    ///
+    /// You don't need to manually invoke this function to start the display link unless `autoManagedRunningState` is set to `false`.
     func startRunning() {
         CVDisplayLinkStart(_displayLink)
-        print("DisplayLink Started")
     }
     
+    /// Stop running the display link.
+    ///
+    /// You don't need to manually invoke this function to stop the display link unless `autoManagedRunningState` is set to `false`.
     func stopRunning() {
         CVDisplayLinkStop(_displayLink)
-        print("DisplayLink Stopped")
     }
     
     private func updateRunningStateIfNeeded() {
@@ -61,6 +75,10 @@ public class DisplayLink: NSObject {
         }
     }
     
+    /// Add an object to the subscriber list to get notify when the display frame is about to output.
+    ///
+    /// This function does not retain the object you pass in, instead, it store a weak reference to the object. That is, you don't need to remove the object
+    /// from the subscriber list if your object need to get notify for screen frame changes on its entire life cycle.
     public func addSubscriber(_ newSubscriber: DisplayLinkSubscriber) {
         _subscribers.compact()
         
@@ -75,6 +93,10 @@ public class DisplayLink: NSObject {
         updateRunningStateIfNeeded()
     }
     
+    /// Remove an object reference from the subscriber list.
+    ///
+    /// In most of the case, you don't need to remove the object reference from the subscriber list, since it only keep a weak reference which will be removed
+    /// automatically when needed.
     public func removeSubscriber(_ subscriber: DisplayLinkSubscriber) {
         _subscribers.compact()
         
@@ -89,46 +111,6 @@ public class DisplayLink: NSObject {
         if index >= 0 && index < _subscribers.count {
             _subscribers.removePointer(at: index)
             updateRunningStateIfNeeded()
-        }
-    }
-    
-}
-
-extension NSPointerArray {
-
-    func add(_ newElement: AnyObject) {
-        addPointer(Unmanaged.passUnretained(newElement).toOpaque())
-    }
-    
-    func forEach(_ body: (UnsafeMutableRawPointer?) -> Void) {
-        for index in 0..<count {
-            body(pointer(at: index))
-        }
-    }
-    
-    func compactForEach(_ body: (UnsafeMutableRawPointer) -> Void) {
-        forEach {
-            if let pointer = $0 {
-                body(pointer)
-            }
-        }
-    }
-    
-    func forEach<T: AnyObject>(_ objectType: T.Type, _ body: (T?) -> Void) {
-        for index in 0..<count {
-            if let p = pointer(at: index) {
-                body(Unmanaged<T>.fromOpaque(p).takeUnretainedValue())
-            } else {
-                body(nil)
-            }
-        }
-    }
-    
-    func compactForEach<T: AnyObject>(_ objectType: T.Type, _ body: (T) -> Void) {
-        forEach(objectType) {
-            if let element = $0 {
-                body(element)
-            }
         }
     }
     

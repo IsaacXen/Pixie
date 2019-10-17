@@ -2,7 +2,7 @@ import Cocoa
 
 class MagnifierViewController: NSViewController {
 
-    public var magnificationFactor: CGFloat = 32 {
+    public var magnificationFactor: CGFloat = 1 {
         didSet {
             magnifierView.magnificationFactor = magnificationFactor
             hudView.magnificationFactor = magnificationFactor
@@ -48,12 +48,19 @@ class MagnifierViewController: NSViewController {
             hudView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             hudView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+                
+        setupDefaults()
+        
+//        NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: view.window, queue: .main, using: applicationDidChangeOcclusionState)
         
         DisplayLink.shared.addSubscriber(magnifierView)
         
-        magnificationFactor = 32
+    }
+    
+    func setupDefaults() {
+        magnificationFactor = DefaultsController.shared.retrive(.magnificationFactor)
         
-        NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: view.window, queue: .main, using: applicationDidChangeOcclusionState)
+        DefaultsController.shared.addSubscriber(self)
     }
 
     func applicationDidChangeOcclusionState(_ notification: Notification) {
@@ -66,5 +73,80 @@ class MagnifierViewController: NSViewController {
         }
     }
     
+    override func scrollWheel(with event: NSEvent) {
+        setMagnification(to: magnificationFactor + event.deltaY)
+    }
+    
+    func setMagnification(to magnificationFactor: CGFloat) {
+        let clamped = max(1, min(magnificationFactor, 128))
+        DefaultsController.shared.set(.magnificationFactor, to: clamped)
+    }
+    
 }
 
+
+
+// MARK: - Responder Chain Action Handling
+
+extension MagnifierViewController: NSMenuItemValidation {
+    
+    @IBAction func increaseMagnification(_ sender: NSMenuItem?) {
+        setMagnification(to: magnificationFactor + 1)
+    }
+    
+    @IBAction func fastIncreaseMagnification(_ sender: NSMenuItem?) {
+        var factor: CGFloat = 1
+        
+        while magnificationFactor >= factor {
+            factor *= 2
+        }
+        
+        setMagnification(to: factor)
+    }
+    
+    @IBAction func decreaseMagnification(_ sender: NSMenuItem?) {
+        setMagnification(to: magnificationFactor - 1)
+    }
+
+    @IBAction func fastDecreaseMagnification(_ sender: NSMenuItem?) {
+        var factor: CGFloat = 1
+        
+        while magnificationFactor > factor * 2 {
+            factor *= 2
+        }
+        
+        setMagnification(to: factor)
+    }
+    
+    @IBAction func setMagnification(_ sender: NSMenuItem?) {
+        if let tag = sender?.tag {
+            setMagnification(to: CGFloat(tag))
+        }
+    }
+    
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.action {
+            case #selector(increaseMagnification), #selector(fastIncreaseMagnification):
+                return magnificationFactor < 128
+                
+            case #selector(decreaseMagnification), #selector(fastDecreaseMagnification):
+                return magnificationFactor > 1
+             
+            default:
+                return true
+        }
+    }
+}
+
+extension MagnifierViewController: DefaultsControllerSubscriber {
+    
+    func defaultsController(_ controller: DefaultsController, didChangeDefaultWithKeyPath keyPath: String) {
+        switch keyPath {
+            case Default<CGFloat>.magnificationFactor.keyPath:
+                magnificationFactor = controller.retrive(.magnificationFactor)
+            
+            default: ()
+        }
+    }
+    
+}
