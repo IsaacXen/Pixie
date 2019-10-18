@@ -10,7 +10,6 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         window?.minSize = NSSize(width: 300, height: 300)
         window?.collectionBehavior = [.init(rawValue: 0), .managed, .participatesInCycle, .fullScreenPrimary]
         window?.delegate = self
-        window?.title = "Pixie"
         window?.tabbingMode = .disallowed
         
         window?.titleVisibility = .hidden
@@ -46,10 +45,14 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     }
     
     func windowDidEnterFullScreen(_ notification: Notification) {
+        window?.titleVisibility = .visible
+        window?.titlebarAppearsTransparent = false
         _titleBar?.alphaValue = 1
     }
     
     func windowWillExitFullScreen(_ notification: Notification) {
+        window?.titleVisibility = .hidden
+        window?.titlebarAppearsTransparent = true
         _titleBar?.alphaValue = 0
     }
     

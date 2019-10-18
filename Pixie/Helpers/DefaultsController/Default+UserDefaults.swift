@@ -10,4 +10,12 @@ extension Default {
         return .init("magnificationFactor", 16)
     }
     
+    static var showGrid: Default<Bool> {
+        return .init("showGrid", false)
+    }
+    
+    static var showHotSpot: Default<Bool> {
+        return .init("showHotSpot", true)
+    }
+    
 }

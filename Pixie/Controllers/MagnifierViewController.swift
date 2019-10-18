@@ -59,6 +59,8 @@ class MagnifierViewController: NSViewController {
     
     func setupDefaults() {
         magnificationFactor = DefaultsController.shared.retrive(.magnificationFactor)
+        hudView.showGrid = DefaultsController.shared.retrive(.showGrid)
+        hudView.showHotSpot = DefaultsController.shared.retrive(.showHotSpot)
         
         DefaultsController.shared.addSubscriber(self)
     }
@@ -91,7 +93,7 @@ class MagnifierViewController: NSViewController {
 extension MagnifierViewController: NSMenuItemValidation {
     
     @IBAction func increaseMagnification(_ sender: NSMenuItem?) {
-        setMagnification(to: magnificationFactor + 1)
+        setMagnification(to: floor(magnificationFactor) + 1)
     }
     
     @IBAction func fastIncreaseMagnification(_ sender: NSMenuItem?) {
@@ -105,7 +107,7 @@ extension MagnifierViewController: NSMenuItemValidation {
     }
     
     @IBAction func decreaseMagnification(_ sender: NSMenuItem?) {
-        setMagnification(to: magnificationFactor - 1)
+        setMagnification(to: floor(magnificationFactor) - 1)
     }
 
     @IBAction func fastDecreaseMagnification(_ sender: NSMenuItem?) {
@@ -124,6 +126,16 @@ extension MagnifierViewController: NSMenuItemValidation {
         }
     }
     
+    @IBAction func toggleGrid(_ sender: Any?) {
+        hudView.showGrid.toggle()
+        DefaultsController.shared.set(.showGrid, to: hudView.showGrid)
+    }
+    
+    @IBAction func toggleHotSpot(_ sender: Any?) {
+        hudView.showHotSpot.toggle()
+        DefaultsController.shared.set(.showHotSpot, to: hudView.showHotSpot)
+    }
+    
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
             case #selector(increaseMagnification), #selector(fastIncreaseMagnification):
@@ -132,9 +144,18 @@ extension MagnifierViewController: NSMenuItemValidation {
             case #selector(decreaseMagnification), #selector(fastDecreaseMagnification):
                 return magnificationFactor > 1
              
+            case #selector(toggleGrid):
+                menuItem.state = hudView.canShowGrid ? hudView.showGrid ? .on : .off : .off
+                return hudView.canShowGrid
+            
+            case #selector(toggleHotSpot):
+                menuItem.state = hudView.showHotSpot ? .on : .off
+            
             default:
                 return true
         }
+        
+        return true
     }
 }
 

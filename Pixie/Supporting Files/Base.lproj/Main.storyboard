@@ -20,8 +20,6 @@
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -104,9 +102,15 @@
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                                         <menuItem title="Show Grid" id="CZT-iT-nXy">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleGrid:" target="Ady-hI-5gd" id="56X-dg-RCb"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Show Mouse Hot-Spot" id="LwV-QC-Ong">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleHotSpot:" target="Ady-hI-5gd" id="aTS-yT-a7c"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem title="Show Mouse Coordinates" id="KWu-RW-5Kq">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -135,10 +139,6 @@
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="P3B-je-ghv"/>
-                                        <menuItem title="Show OSD" id="ixb-3G-iEM">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="UQA-fv-Hwe"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
