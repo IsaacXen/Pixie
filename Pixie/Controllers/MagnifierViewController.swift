@@ -76,7 +76,7 @@ class MagnifierViewController: NSViewController {
     }
     
     override func scrollWheel(with event: NSEvent) {
-        setMagnification(to: magnificationFactor + event.deltaY)
+        setMagnification(to: magnificationFactor - event.deltaY)
     }
     
     func setMagnification(to magnificationFactor: CGFloat) {

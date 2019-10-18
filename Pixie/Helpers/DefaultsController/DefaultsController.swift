@@ -49,12 +49,10 @@ class DefaultsController: NSObject {
     
     func addSubscriber(_ newSubscriber: DefaultsControllerSubscriber) {
         _subscriber.add(newSubscriber as AnyObject)
-        print(#function, _subscriber.count)
     }
     
     func removeSubscriber(_ subscriber: DefaultsControllerSubscriber) {
         _subscriber.remove(subscriber as AnyObject)
-        print(#function, _subscriber.count)
     }
     
 }
