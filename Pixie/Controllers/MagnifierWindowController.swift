@@ -12,6 +12,9 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         window?.delegate = self
         window?.title = "Pixie"
         window?.tabbingMode = .disallowed
+        
+        window?.titleVisibility = .hidden
+        window?.titlebarAppearsTransparent = true
     }
     
     override func windowDidLoad() {
@@ -22,7 +25,7 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         windowFrameAutosaveName = "magnifierWindow"
         
         let shouldFloat = DefaultsController.shared.retrive(.floatingMagnifierWindow)
-        window?.level = shouldFloat ? .floating : .normal
+        window?.level = shouldFloat ? .screenSaver : .normal
         
         // setup tracking area
         updateTrackingAreas()
@@ -69,7 +72,7 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         }
         
         if !window.styleMask.contains(.fullScreen) {
-            _trackingArea = NSTrackingArea(rect: contentView.frame, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: nil)
+            _trackingArea = NSTrackingArea(rect: contentView.frame, options: [.activeInActiveApp, .mouseEnteredAndExited], owner: self, userInfo: nil)
             contentView.addTrackingArea(_trackingArea!)
         }
     }
@@ -103,8 +106,8 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
 extension MagnifierWindowController: NSMenuItemValidation {
    
     @IBAction func toggleWindowFloating(_ sender: NSMenuItem?) {
-        let isFloating = window?.level == .some(.floating)
-        window?.level = isFloating ? .normal : .floating
+        let isFloating = window?.level == .some(.screenSaver)
+        window?.level = isFloating ? .normal : .screenSaver
         
         DefaultsController.shared.set(.floatingMagnifierWindow, to: !isFloating)
     }
@@ -112,7 +115,7 @@ extension MagnifierWindowController: NSMenuItemValidation {
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
             case #selector(toggleWindowFloating):
-                menuItem.state = window?.level == .some(.floating) ? .on : .off
+                menuItem.state = window?.level == .some(.screenSaver) ? .on : .off
                 return true
             
             default:

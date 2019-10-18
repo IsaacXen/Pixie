@@ -21,8 +21,15 @@ class MagnifierView: LayerHostedView, DisplayLinkSubscriber {
         
         let w = ceil((bounds.width / magnificationFactor - 1) / 2) + 1
         let h = ceil((bounds.height / magnificationFactor - 1) / 2) + 1
-                
-        let (scale, offset, image) = ScreenCapture.captureScreen(centerOf: mouseLocation, dw: w, dh: h)
+        
+        let (scale, offset, image): (CGFloat, CGPoint, CGImage?)
+        
+        if let windowID = window?.windowNumber {
+            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: mouseLocation, dw: w, dh: h, excluding: CGWindowID(windowID))
+        } else {
+            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: mouseLocation, dw: w, dh: h)
+        }
+        
         _screenLayer.contents = image
         _screenLayer.frame = bounds
             .offsetBy(dx: -offset.x * magnificationFactor / 2, dy: offset.y * -magnificationFactor / 2)
