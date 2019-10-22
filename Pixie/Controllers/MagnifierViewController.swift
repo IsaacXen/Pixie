@@ -3,9 +3,7 @@ import Cocoa
 class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
 
     // MARK: Subviews
-    
-    // TODO: Merge hud view into magnifier view
-    
+        
     lazy var magnifierView: MagnifierView = {
         let view = MagnifierView()
         view.delegate = self
@@ -58,7 +56,6 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
         let v = NSVisualEffectView(frame: NSMakeRect(0, 0, 300, 300))
         v.wantsLayer = true
         v.material = .sidebar
-        v.state = .active
         v.blendingMode = .behindWindow
         view = v
     }

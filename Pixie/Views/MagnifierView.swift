@@ -27,6 +27,10 @@ final class MagnifierView: NSView {
         didSet { needsDisplay = true }
     }
     
+    var canShowGrid: Bool {
+        magnificationFactor >= 8
+    }
+    
     // MARK: - Layers
     
     private let _imageLayer = CALayer()
@@ -116,7 +120,7 @@ final class MagnifierView: NSView {
     }
     
     private func _updateGridLayer(in rect: NSRect) {
-        _gridLayer.isHidden = !(showGrid && magnificationFactor >= 8)
+        _gridLayer.isHidden = !(showGrid && canShowGrid)
         guard showGrid, magnificationFactor >= 8 else { return }
         
         _gridLayer.frame = bounds

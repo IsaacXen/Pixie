@@ -60,7 +60,7 @@ class RoundedTooltipsLabel: NSView {
         view.isSelectable = false
         view.isBordered = false
         view.lineBreakMode = .byTruncatingTail
-        view.font = NSFont.monospacedSystemFont(ofSize: NSFont.smallSystemFontSize, weight: .semibold)
+        view.font = NSFont.monospacedSystemFont(ofSize: NSFont.smallSystemFontSize, weight: .regular)
         view.textColor = NSColor.textColor
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false

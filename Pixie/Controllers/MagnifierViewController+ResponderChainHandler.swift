@@ -36,15 +36,15 @@ extension MagnifierViewController: NSMenuItemValidation {
         }
     }
     
-//    @IBAction func toggleGrid(_ sender: Any?) {
-//        hudView.showGrid.toggle()
-//        DefaultsController.shared.set(.showGrid, to: hudView.showGrid)
-//    }
-//    
-//    @IBAction func toggleHotSpot(_ sender: Any?) {
-//        hudView.showHotSpot.toggle()
-//        DefaultsController.shared.set(.showHotSpot, to: hudView.showHotSpot)
-//    }
+    @IBAction func toggleGrid(_ sender: Any?) {
+        magnifierView.showGrid.toggle()
+        DefaultsController.shared.set(.showGrid, to: magnifierView.showGrid)
+    }
+    
+    @IBAction func toggleHotSpot(_ sender: Any?) {
+        magnifierView.showHotSpot.toggle()
+        DefaultsController.shared.set(.showHotSpot, to: magnifierView.showHotSpot)
+    }
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
@@ -54,17 +54,17 @@ extension MagnifierViewController: NSMenuItemValidation {
             case #selector(decreaseMagnification), #selector(fastDecreaseMagnification):
                 return magnifierView.magnificationFactor > 1
              
-//            case #selector(toggleGrid):
-//                menuItem.state = hudView.canShowGrid ? hudView.showGrid ? .on : .off : .off
-//                return hudView.canShowGrid
-//
-//            case #selector(toggleHotSpot):
-//                menuItem.state = hudView.showHotSpot ? .on : .off
-//
+            case #selector(toggleGrid):
+                menuItem.state = magnifierView.canShowGrid ? magnifierView.showGrid ? .on : .off : .off
+                return magnifierView.canShowGrid
+
+            case #selector(toggleHotSpot):
+                menuItem.state = magnifierView.showHotSpot ? .on : .off
+                return true
+
             default:
                 return true
         }
-        
-//        return true
     }
+    
 }

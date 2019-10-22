@@ -68,7 +68,7 @@
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save As…" keyEquivalent="s" id="Bw7-FT-i3A">
+                                        <menuItem title="Save As…" hidden="YES" keyEquivalent="s" id="Bw7-FT-i3A">
                                             <connections>
                                                 <action selector="saveDocumentAs:" target="Ady-hI-5gd" id="mDf-zr-I0C"/>
                                             </connections>
@@ -92,8 +92,8 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Edit" id="W48-6f-4Dl">
                                     <items>
-                                        <menuItem title="Copy Image" keyEquivalent="c" id="ivJ-zy-cXh"/>
-                                        <menuItem title="Copy Color" keyEquivalent="c" id="QTc-ee-PCY">
+                                        <menuItem title="Copy Image" hidden="YES" keyEquivalent="c" id="ivJ-zy-cXh"/>
+                                        <menuItem title="Copy Color" hidden="YES" keyEquivalent="c" id="QTc-ee-PCY">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                         </menuItem>
                                     </items>
@@ -103,9 +103,9 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Lock Image" keyEquivalent="l" id="rRA-mA-lqm"/>
-                                        <menuItem title="Lock Horizontal" keyEquivalent="x" id="ydZ-Yf-9o3"/>
-                                        <menuItem title="Lock Vertical" keyEquivalent="y" id="Ega-aa-own"/>
+                                        <menuItem title="Lock Image" hidden="YES" keyEquivalent="l" id="rRA-mA-lqm"/>
+                                        <menuItem title="Lock Horizontal" hidden="YES" keyEquivalent="x" id="ydZ-Yf-9o3"/>
+                                        <menuItem title="Lock Vertical" hidden="YES" keyEquivalent="y" id="Ega-aa-own"/>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                                         <menuItem title="Show Grid" id="CZT-iT-nXy">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -118,53 +118,6 @@
                                             <connections>
                                                 <action selector="toggleHotSpot:" target="Ady-hI-5gd" id="aTS-yT-a7c"/>
                                             </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="V1h-ia-Iww"/>
-                                        <menuItem title="Show Mouse Coordinates" id="nBy-LF-9ld">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Show Mouse Coordinates" id="Ph3-AL-ln5">
-                                                <items>
-                                                    <menuItem title="None" id="Z13-hJ-ezu">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="In Point" id="zwv-r4-2aq">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="In Pixel" id="YdO-pD-0wb">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem isSeparatorItem="YES" id="rSF-9t-nCj"/>
-                                                    <menuItem title="From Top-Left" id="7El-qN-JUW">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="From Bottom-Left" id="PUH-oU-Rtr">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </menuItem>
-                                        <menuItem title="Show Color Value" id="ajd-OU-0vt">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Show Color Value" id="X4T-gC-scZ">
-                                                <items>
-                                                    <menuItem title="None" id="aGX-Cv-3di">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="In sRGB" id="h7Y-I5-NMs">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="In HSB" id="V86-ne-spS">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem isSeparatorItem="YES" id="vyc-wa-qOF"/>
-                                                    <menuItem title="Float Value" id="OCP-Fc-f27">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                    <menuItem title="Hex Value" id="AWq-pQ-BEc">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="P3B-je-ghv"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
@@ -257,7 +210,8 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eap-he-9xk"/>
-                                        <menuItem title="Float on Top" keyEquivalent="f" id="BWx-V4-jgh">
+                                        <menuItem title="Float on Top" id="BWx-V4-jgh">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toggleWindowFloating:" target="Ady-hI-5gd" id="9pa-Xp-Hj3"/>
                                             </connections>
