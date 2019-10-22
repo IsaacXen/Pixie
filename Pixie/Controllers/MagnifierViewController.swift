@@ -1,83 +1,101 @@
 import Cocoa
 
-class MagnifierViewController: NSViewController {
+class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
 
-    public var magnificationFactor: CGFloat = 1 {
-        didSet {
-            magnifierView.magnificationFactor = magnificationFactor
-            hudView.magnificationFactor = magnificationFactor
-        }
-    }
+    // MARK: Subviews
     
-    override func loadView() {
-        let v = NSVisualEffectView(frame: NSMakeRect(0, 0, 300, 300))
-        v.material = .sidebar
-        v.state = .active
-        v.blendingMode = .behindWindow
-        view = v
-    }
+    // TODO: Merge hud view into magnifier view
     
-    private let magnifierView: MagnifierView = {
+    lazy var magnifierView: MagnifierView = {
         let view = MagnifierView()
+        view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         return view
     }()
     
-    private let hudView: HudView = {
-        let view = HudView()
+    let _bottomLeftLabel: RoundedTooltipsLabel = {
+        let view = RoundedTooltipsLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         return view
     }()
-        
-    override func viewDidLoad() {
+    
+    let _bottomRightLabel: RoundedTooltipsLabel = {
+        let view = RoundedTooltipsLabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    // MARK: - Setup Subviews
+    
+    func setupSubviews(in view: NSView) {
         view.addSubview(magnifierView)
-        view.addSubview(hudView)
+        view.addSubview(_bottomLeftLabel)
+        view.addSubview(_bottomRightLabel)
         
+        setupConstraints()
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             magnifierView.topAnchor.constraint(equalTo: view.topAnchor),
             magnifierView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             magnifierView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             magnifierView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            hudView.topAnchor.constraint(equalTo: view.topAnchor),
-            hudView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            hudView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            hudView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            _bottomLeftLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4),
+            _bottomLeftLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4),
+            _bottomLeftLabel.widthAnchor.constraint(lessThanOrEqualTo: view.widthAnchor, multiplier: 0.5, constant: -4),
+            
+            _bottomRightLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -4),
+            _bottomRightLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
+            _bottomRightLabel.leadingAnchor.constraint(greaterThanOrEqualTo: _bottomLeftLabel.trailingAnchor, constant: 8),
         ])
-                
-        setupDefaults()
-        
-//        NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: view.window, queue: .main, using: applicationDidChangeOcclusionState)
-        
-        DisplayLink.shared.addSubscriber(magnifierView)
-        
     }
     
+    // MARK: -
+
+    override func loadView() {
+        let v = NSVisualEffectView(frame: NSMakeRect(0, 0, 300, 300))
+        v.wantsLayer = true
+        v.material = .sidebar
+        v.state = .active
+        v.blendingMode = .behindWindow
+        view = v
+    }
+    
+    override func viewDidLoad() {
+        setupSubviews(in: view)
+        setupDefaults()
+    }
+    
+    // MARK: - Loading User Settings
+    
     func setupDefaults() {
-        magnificationFactor = DefaultsController.shared.retrive(.magnificationFactor)
-        hudView.showGrid = DefaultsController.shared.retrive(.showGrid)
-        hudView.showHotSpot = DefaultsController.shared.retrive(.showHotSpot)
+        magnifierView.magnificationFactor = DefaultsController.shared.retrive(.magnificationFactor)
+        magnifierView.showGrid = DefaultsController.shared.retrive(.showGrid)
+        magnifierView.showHotSpot = DefaultsController.shared.retrive(.showHotSpot)
         
         DefaultsController.shared.addSubscriber(self)
     }
-
-    func applicationDidChangeOcclusionState(_ notification: Notification) {
-        guard let sender = notification.object as? NSWindow else { return }
-        
-        if sender.occlusionState.contains(.visible) {
-            DisplayLink.shared.addSubscriber(magnifierView)
-        } else {
-            DisplayLink.shared.removeSubscriber(magnifierView)
+    
+    func defaultsController(_ controller: DefaultsController, didChangeDefaultWithKeyPath keyPath: String) {
+        switch keyPath {
+            case Default<CGFloat>.magnificationFactor.keyPath:
+                let magnificationFactor = controller.retrive(.magnificationFactor)
+                magnifierView.magnificationFactor = magnificationFactor
+                print("magnificationFactor: \(magnificationFactor)x")
+            
+            default: ()
         }
     }
     
-    override func scrollWheel(with event: NSEvent) {
-        setMagnification(to: magnificationFactor - event.deltaY)
-    }
+    public var mouseCoordinatesInPixel: Bool = true
+    
+    // MARK: - Responding to Keyboard & Mouse / Trackpad Events
+    
+//    override func scrollWheel(with event: NSEvent) {
+//        setMagnification(to: magnifierView.magnificationFactor - event.deltaY)
+//    }
     
     func setMagnification(to magnificationFactor: CGFloat) {
         let clamped = max(1, min(magnificationFactor, 128))
@@ -86,87 +104,32 @@ class MagnifierViewController: NSViewController {
     
 }
 
-
-
-// MARK: - Responder Chain Action Handling
-
-extension MagnifierViewController: NSMenuItemValidation {
+extension MagnifierViewController: MagnifierViewDelegate {
     
-    @IBAction func increaseMagnification(_ sender: NSMenuItem?) {
-        setMagnification(to: floor(magnificationFactor) + 1)
-    }
-    
-    @IBAction func fastIncreaseMagnification(_ sender: NSMenuItem?) {
-        var factor: CGFloat = 1
-        
-        while magnificationFactor >= factor {
-            factor *= 2
+    func magnifierView(_ view: MagnifierView, didUpdateMouseLocation locationInPoint: NSPoint) {
+        guard let keyScreen = NSScreen.hovered else {
+            _bottomLeftLabel.stringValue = "(-, -)"
+            return
         }
         
-        setMagnification(to: factor)
-    }
-    
-    @IBAction func decreaseMagnification(_ sender: NSMenuItem?) {
-        setMagnification(to: floor(magnificationFactor) - 1)
-    }
-
-    @IBAction func fastDecreaseMagnification(_ sender: NSMenuItem?) {
-        var factor: CGFloat = 1
+        var x = floor(locationInPoint.x * keyScreen.backingScaleFactor)
+        var y = floor((keyScreen.frame.height - locationInPoint.y - keyScreen.frame.minY) * keyScreen.backingScaleFactor)
         
-        while magnificationFactor > factor * 2 {
-            factor *= 2
-        }
-        
-        setMagnification(to: factor)
-    }
-    
-    @IBAction func setMagnification(_ sender: NSMenuItem?) {
-        if let tag = sender?.tag {
-            setMagnification(to: CGFloat(tag))
-        }
-    }
-    
-    @IBAction func toggleGrid(_ sender: Any?) {
-        hudView.showGrid.toggle()
-        DefaultsController.shared.set(.showGrid, to: hudView.showGrid)
-    }
-    
-    @IBAction func toggleHotSpot(_ sender: Any?) {
-        hudView.showHotSpot.toggle()
-        DefaultsController.shared.set(.showHotSpot, to: hudView.showHotSpot)
-    }
-    
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        switch menuItem.action {
-            case #selector(increaseMagnification), #selector(fastIncreaseMagnification):
-                return magnificationFactor < 128
-                
-            case #selector(decreaseMagnification), #selector(fastDecreaseMagnification):
-                return magnificationFactor > 1
-             
-            case #selector(toggleGrid):
-                menuItem.state = hudView.canShowGrid ? hudView.showGrid ? .on : .off : .off
-                return hudView.canShowGrid
+        if !mouseCoordinatesInPixel {
+            x = x / keyScreen.backingScaleFactor
+            y = y / keyScreen.backingScaleFactor
             
-            case #selector(toggleHotSpot):
-                menuItem.state = hudView.showHotSpot ? .on : .off
-            
-            default:
-                return true
+            _bottomLeftLabel.stringValue = String(format: "(%.1f, %.1f)", x, y)
+        } else {
+            _bottomLeftLabel.stringValue = String(format: "(%.0f, %.0f)", x, y)
         }
-        
-        return true
     }
-}
-
-extension MagnifierViewController: DefaultsControllerSubscriber {
     
-    func defaultsController(_ controller: DefaultsController, didChangeDefaultWithKeyPath keyPath: String) {
-        switch keyPath {
-            case Default<CGFloat>.magnificationFactor.keyPath:
-                magnificationFactor = controller.retrive(.magnificationFactor)
-            
-            default: ()
+    func magnifierView(_ view: MagnifierView, color: NSColor?, atLocation loactionInPoint: NSPoint) {
+        if let color = color {
+            _bottomRightLabel.stringValue = String(format: "sRGB(%.3f, %.3f, %.3f)", color.redComponent, color.greenComponent, color.blueComponent)
+        } else {
+            _bottomRightLabel.stringValue = "(-, -, -)"
         }
     }
     

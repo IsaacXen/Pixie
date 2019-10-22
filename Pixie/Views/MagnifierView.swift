@@ -1,47 +1,230 @@
 import Cocoa
 
-class MagnifierView: LayerHostedView, DisplayLinkSubscriber {
+protocol MagnifierViewDelegate: class {
+    func magnifierView(_ view: MagnifierView, didUpdateMouseLocation locationInPoint: NSPoint)
+    func magnifierView(_ view: MagnifierView, color: NSColor?, atLocation loactionInPoint: NSPoint)
+}
+
+///
+///
+/// The redraw of the view is driven by a display link object with a `CGScreen` object containing the window of this view. That is, the layers in this view is
+/// redraw in every screen frame update.
+///
+/// By default, when the view is not visible to the user, the view will stop
+final class MagnifierView: NSView {
     
-    var magnificationFactor: CGFloat = 32
+    weak var delegate: MagnifierViewDelegate?
     
-    private let _screenLayer = CALayer()
+    @Clamping(1...128) var magnificationFactor: CGFloat = 1 {
+        didSet { needsDisplay = true }
+    }
     
-    override func setupLayer() {
-        layer?.addSublayer(_screenLayer)
+    var showHotSpot: Bool = true {
+        didSet { needsDisplay = true }
+    }
+    
+    var showGrid: Bool = true {
+        didSet { needsDisplay = true }
+    }
+    
+    // MARK: - Layers
+    
+    private let _imageLayer = CALayer()
+    
+    private let _gridLayer = CAShapeLayer()
+    
+    private let _hotSpotContainerLayer = CALayer()
+    private let _hotSpotOuterStrokeLayer = CAShapeLayer()
+    private let _hotSpotStrokeLayer = CAShapeLayer()
+    
+    private func _setupLayer() {
+        wantsLayer = true
+        layerContentsRedrawPolicy = .onSetNeedsDisplay
+        layer?.needsDisplayOnBoundsChange = true
         
-        _screenLayer.contentsGravity = .center
-        _screenLayer.magnificationFilter = .nearest
+        layer?.addSublayer(_imageLayer)
+        layer?.insertSublayer(_gridLayer, above: _imageLayer)
+        layer?.insertSublayer(_hotSpotContainerLayer, above: _gridLayer)
+        _hotSpotContainerLayer.addSublayer(_hotSpotOuterStrokeLayer)
+        _hotSpotContainerLayer.insertSublayer(_hotSpotStrokeLayer, above: _hotSpotOuterStrokeLayer)
+        
+        _imageLayer.magnificationFilter = .nearest
+        _imageLayer.contentsGravity = .center
+        
+        _gridLayer.strokeColor = .black
+        _gridLayer.lineWidth = 1
+        _gridLayer.fillColor = .clear
+        
+        _hotSpotOuterStrokeLayer.strokeColor = .black
+        _hotSpotOuterStrokeLayer.lineWidth = 3
+        _hotSpotOuterStrokeLayer.fillColor = .clear
+        
+        _hotSpotStrokeLayer.strokeColor = .white
+        _hotSpotStrokeLayer.lineWidth = 1
+        _hotSpotStrokeLayer.fillColor = .clear
     }
     
     override func updateLayer() {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-
-        let mouseLocation = NSEvent.mouseLocation
-        
+        _updateImageLayer(in: bounds)
+        _updateGridLayer(in: bounds)
+        _updateHotSpotLayer(in: bounds)
+        CATransaction.commit()
+    }
+    
+    private func _updateImageLayer(in rect: NSRect) {
         let w = ceil((bounds.width / magnificationFactor - 1) / 2) + 1
         let h = ceil((bounds.height / magnificationFactor - 1) / 2) + 1
         
         let (scale, offset, image): (CGFloat, CGPoint, CGImage?)
         
         if let windowID = window?.windowNumber {
-            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: mouseLocation, dw: w, dh: h, excluding: CGWindowID(windowID))
+            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: NSEvent.mouseLocation, dw: w, dh: h, excluding: CGWindowID(windowID))
         } else {
-            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: mouseLocation, dw: w, dh: h)
+            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: NSEvent.mouseLocation, dw: w, dh: h)
         }
         
-        _screenLayer.contents = image
-        _screenLayer.frame = bounds
+        _imageLayer.contents = image
+        _imageLayer.frame = bounds
             .offsetBy(dx: -offset.x * magnificationFactor / 2, dy: offset.y * -magnificationFactor / 2)
             .offsetBy(dx: magnificationFactor / 4, dy: -magnificationFactor / 4)
-
-        _screenLayer.contentsScale = 1 / magnificationFactor * scale
         
-        CATransaction.commit()
+        _imageLayer.contentsScale = 1 / magnificationFactor * scale
+
+        delegate?.magnifierView(self, didUpdateMouseLocation: NSEvent.mouseLocation)
+        
+        if let image = image {
+            let color = NSBitmapImageRep(cgImage: image).colorAt(x: image.width / 2, y: image.height / 2 - 1)
+            delegate?.magnifierView(self, color: color, atLocation: NSEvent.mouseLocation)
+        }
+        
+    }
+        
+    private func _updateHotSpotLayer(in rect: NSRect) {
+        _hotSpotContainerLayer.isHidden = !showHotSpot
+        guard showHotSpot else { return }
+        
+        var alignmentRect = _alignmentRect
+
+        if _alignmentRect.width <= _pixelWidthInPoint {
+            alignmentRect = _minAlignmentRect
+        }
+        
+        _hotSpotContainerLayer.frame = alignmentRect.insetBy(dx: -_hotSpotOuterStrokeLayer.lineWidth, dy: -_hotSpotOuterStrokeLayer.lineWidth)
+        
+        _hotSpotOuterStrokeLayer.frame = _hotSpotContainerLayer.bounds
+        _hotSpotOuterStrokeLayer.path = CGPath(rect: _hotSpotOuterStrokeLayer.bounds.insetBy(dx: _hotSpotOuterStrokeLayer.lineWidth / 2, dy: _hotSpotOuterStrokeLayer.lineWidth / 2), transform: nil)
+        
+        _hotSpotStrokeLayer.frame = _hotSpotContainerLayer.bounds
+        _hotSpotStrokeLayer.path = CGPath(rect: _hotSpotStrokeLayer.bounds.insetBy(dx: _hotSpotOuterStrokeLayer.lineWidth / 2, dy: _hotSpotOuterStrokeLayer.lineWidth / 2), transform: nil)
     }
     
-    func displayLink(_ displayLink: DisplayLink, willOutputFrameInTime outputTime: CVTimeStamp, currentTime: CVTimeStamp) {
-        needsDisplay = true
+    private func _updateGridLayer(in rect: NSRect) {
+        _gridLayer.isHidden = !(showGrid && magnificationFactor >= 8)
+        guard showGrid, magnificationFactor >= 8 else { return }
+        
+        _gridLayer.frame = bounds
+        
+        var alignmentRect = _alignmentRect
+        let path = CGMutablePath()
+        
+        while !alignmentRect.fullyContains(bounds) {
+            path.move(to: NSMakePoint(bounds.minX, alignmentRect.minY))
+            path.addLine(to: NSMakePoint(bounds.maxX, alignmentRect.minY))
+            path.move(to: NSMakePoint(bounds.minX, alignmentRect.maxY))
+            path.addLine(to: NSMakePoint(bounds.maxX, alignmentRect.maxY))
+            path.move(to: NSMakePoint(alignmentRect.minX, bounds.minY))
+            path.addLine(to: NSMakePoint(alignmentRect.minX, bounds.maxY))
+            path.move(to: NSMakePoint(alignmentRect.maxX, bounds.minY))
+            path.addLine(to: NSMakePoint(alignmentRect.maxX, bounds.maxY))
+            alignmentRect = alignmentRect.insetBy(dx: -_zoomedPixelWidthInPoint, dy: -_zoomedPixelWidthInPoint)
+        }
+        
+        _gridLayer.path = path
+    }
+    
+    // MARK: - Setup Display Link
+    
+    private var _displayLink: CVDisplayLink!
+    
+    private func _setupDisplayLink() {
+        CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink)
+        
+        CVDisplayLinkSetOutputCallback(_displayLink, { (_, _, _, _, _, ctx) -> CVReturn in
+            guard let ctx = ctx else { return kCVReturnError }
+            let context = Unmanaged<MagnifierView>.fromOpaque(ctx).takeUnretainedValue()
+            DispatchQueue.main.async {
+                // TODO: display image layer only
+                context.needsDisplay = true
+//                context._imageLayer.display()
+            }
+            return kCVReturnSuccess
+        }, Unmanaged.passUnretained(self).toOpaque())
+    }
+    
+    // MARK: -
+    
+    private func _observeForOcclusionStateChanges() {
+        NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: window, queue: .main, using: _occlusionStateDidChange)
+    }
+    
+    private func _occlusionStateDidChange(_ notificaiton: Notification) {
+        guard let window = notificaiton.object as? NSWindow else { return }
+        
+        if window.occlusionState.contains(.visible) {
+            CVDisplayLinkStart(_displayLink)
+        } else {
+            CVDisplayLinkStop(_displayLink)
+        }
+    }
+    
+    // MARK: -
+    
+    func viewDidLoad() {
+        _setupLayer()
+        _setupDisplayLink()
+        _observeForOcclusionStateChanges()
+    }
+    
+    // MARK: - Init & Deinit
+    
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        viewDidLoad()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        viewDidLoad()
+    }
+    
+}
+
+extension MagnifierView {
+    
+    private var _mouseLocation: NSPoint {
+        NSEvent.mouseLocation
+    }
+    
+    private var _screen: NSScreen {
+        NSScreen.hovered ?? NSScreen.main!
+    }
+    
+    private var _pixelWidthInPoint: CGFloat {
+        1 / _screen.backingScaleFactor
+    }
+    
+    private var _zoomedPixelWidthInPoint: CGFloat {
+        _pixelWidthInPoint * magnificationFactor
+    }
+    
+    private var _alignmentRect: NSRect {
+        NSMakeRect(bounds.midX - _zoomedPixelWidthInPoint / 2, bounds.midY - _zoomedPixelWidthInPoint / 2, _zoomedPixelWidthInPoint, _zoomedPixelWidthInPoint)
+    }
+    
+    private var _minAlignmentRect: NSRect {
+        NSMakeRect(bounds.midX - _pixelWidthInPoint / 2, bounds.midY - _pixelWidthInPoint / 2, _pixelWidthInPoint, _pixelWidthInPoint)
     }
     
 }

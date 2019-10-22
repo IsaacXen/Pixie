@@ -23,6 +23,7 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         shouldCascadeWindows = false
         windowFrameAutosaveName = "magnifierWindow"
         
+        // FIXME: screenSaver is too heigh. Causing expose icon below window preview when in mission control.
         let shouldFloat = DefaultsController.shared.retrive(.floatingMagnifierWindow)
         window?.level = shouldFloat ? .screenSaver : .normal
         

@@ -16,6 +16,7 @@ class ScreenCapture: NSObject {
         return window.count > 0 ? .authorized : .denied
     }
 
+    // FIXME: Change this to CGImage(windowListFromArrayScreenBounds:windowArray:imageOption:).
     static func captureScreen(centerOf origin: CGPoint, dw: CGFloat, dh: CGFloat, excluding windowId: CGWindowID) -> (CGFloat, CGPoint, CGImage?) {
         guard let screen = NSScreen.screens.first(where: { NSMouseInRect(origin, $0.frame, false) }) else {
             return (0, .zero, nil)
@@ -47,6 +48,7 @@ class ScreenCapture: NSObject {
             image
         )
     }
+    
     
     static func captureScreen(centerOf origin: CGPoint, dw: CGFloat, dh: CGFloat) -> (CGFloat, CGPoint, CGImage?) {
         guard let screen = NSScreen.screens.first(where: { NSMouseInRect(origin, $0.frame, false) }) else {

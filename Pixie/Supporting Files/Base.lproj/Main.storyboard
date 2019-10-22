@@ -112,27 +112,48 @@
                                                 <action selector="toggleHotSpot:" target="Ady-hI-5gd" id="aTS-yT-a7c"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show Mouse Coordinates" id="KWu-RW-5Kq">
+                                        <menuItem isSeparatorItem="YES" id="V1h-ia-Iww"/>
+                                        <menuItem title="Show Mouse Coordinates" id="nBy-LF-9ld">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                        <menuItem title="Show Color Value" id="WBS-Wq-SZw">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                        <menuItem title="Color Value Format" id="ajd-OU-0vt">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Color Value Format" id="X4T-gC-scZ">
+                                            <menu key="submenu" title="Show Mouse Coordinates" id="Ph3-AL-ln5">
                                                 <items>
-                                                    <menuItem title="Float" id="OCP-Fc-f27">
+                                                    <menuItem title="None" id="Z13-hJ-ezu">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
-                                                    <menuItem title="Hex" id="AWq-pQ-BEc">
+                                                    <menuItem title="In Point" id="zwv-r4-2aq">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="In Pixel" id="YdO-pD-0wb">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="rSF-9t-nCj"/>
+                                                    <menuItem title="From Top-Left" id="7El-qN-JUW">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="From Bottom-Left" id="PUH-oU-Rtr">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Show Color Value" id="ajd-OU-0vt">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Show Color Value" id="X4T-gC-scZ">
+                                                <items>
+                                                    <menuItem title="None" id="aGX-Cv-3di">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="In sRGB" id="h7Y-I5-NMs">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="In HSB" id="V86-ne-spS">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="vyc-wa-qOF"/>
-                                                    <menuItem title="sRGB" id="h7Y-I5-NMs">
+                                                    <menuItem title="Float Value" id="OCP-Fc-f27">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
-                                                    <menuItem title="HSB" id="V86-ne-spS">
+                                                    <menuItem title="Hex Value" id="AWq-pQ-BEc">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                     </menuItem>
                                                 </items>
