@@ -77,28 +77,23 @@ final class MagnifierView: NSView {
         let w = ceil((bounds.width / magnificationFactor - 1) / 2) + 1
         let h = ceil((bounds.height / magnificationFactor - 1) / 2) + 1
         
-        let (scale, offset, image): (CGFloat, CGPoint, CGImage?)
-        
         if let windowID = window?.windowNumber {
-            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: NSEvent.mouseLocation, dw: w, dh: h, excluding: CGWindowID(windowID))
-        } else {
-            (scale, offset, image) = ScreenCapture.captureScreen(centerOf: NSEvent.mouseLocation, dw: w, dh: h)
-        }
-        
-        _imageLayer.contents = image
-        _imageLayer.frame = bounds
-            .offsetBy(dx: -offset.x * magnificationFactor / 2, dy: offset.y * -magnificationFactor / 2)
-            .offsetBy(dx: magnificationFactor / 4, dy: -magnificationFactor / 4)
-        
-        _imageLayer.contentsScale = 1 / magnificationFactor * scale
+            let (scale, offset, image) = ScreenCapture.captureScreen(centerOf: NSEvent.mouseLocation, dw: w, dh: h, excluding: CGWindowID(windowID))
+            
+            _imageLayer.contents = image
+            _imageLayer.frame = bounds
+                .offsetBy(dx: -offset.x * magnificationFactor / 2, dy: offset.y * -magnificationFactor / 2)
+                .offsetBy(dx: magnificationFactor / 4, dy: -magnificationFactor / 4)
+            
+            _imageLayer.contentsScale = 1 / magnificationFactor * scale
 
-        delegate?.magnifierView(self, didUpdateMouseLocation: NSEvent.mouseLocation)
-        
-        if let image = image {
-            let color = NSBitmapImageRep(cgImage: image).colorAt(x: image.width / 2, y: image.height / 2 - 1)
-            delegate?.magnifierView(self, color: color, atLocation: NSEvent.mouseLocation)
+            delegate?.magnifierView(self, didUpdateMouseLocation: NSEvent.mouseLocation)
+            
+            if let image = image {
+                let color = NSBitmapImageRep(cgImage: image).colorAt(x: image.width / 2, y: image.height / 2 - 1)
+                delegate?.magnifierView(self, color: color, atLocation: NSEvent.mouseLocation)
+            }
         }
-        
     }
         
     private func _updateHotSpotLayer(in rect: NSRect) {

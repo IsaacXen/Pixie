@@ -2,6 +2,10 @@ import Foundation
 
 extension Default {
     
+    static var quitWhenClose: Default<Bool> {
+        return .init("quitWhenClose", true)
+    }
+    
     static var floatingMagnifierWindow: Default<Bool> {
         return .init("floatingMagnifierWindow", false)
     }

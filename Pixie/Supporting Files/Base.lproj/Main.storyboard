@@ -43,6 +43,13 @@
                                                 <action selector="unhideAllApplications:" target="Ady-hI-5gd" id="Dhg-Le-xox"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="iSN-BA-11Z"/>
+                                        <menuItem title="Quit When Closed" id="GCd-Ps-kRx">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleQuitWhenClose:" target="Ady-hI-5gd" id="b55-1q-owu"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
                                         <menuItem title="Quit Pixie" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>

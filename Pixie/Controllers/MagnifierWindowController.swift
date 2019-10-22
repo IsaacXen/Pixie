@@ -23,9 +23,8 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         shouldCascadeWindows = false
         windowFrameAutosaveName = "magnifierWindow"
         
-        // FIXME: screenSaver is too heigh. Causing expose icon below window preview when in mission control.
         let shouldFloat = DefaultsController.shared.retrive(.floatingMagnifierWindow)
-        window?.level = shouldFloat ? .screenSaver : .normal
+        window?.level = shouldFloat ? .floating : .normal
         
         // setup tracking area
         updateTrackingAreas()
@@ -59,6 +58,12 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     
     func windowDidExitFullScreen(_ notification: Notification) {
         updateTrackingAreas()
+    }
+    
+    func windowWillClose(_ notification: Notification) {
+        if DefaultsController.shared.retrive(.quitWhenClose) {
+            NSApp.terminate(nil)
+        }
     }
     
     // MARK: - Tracking Area
@@ -110,8 +115,8 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
 extension MagnifierWindowController: NSMenuItemValidation {
    
     @IBAction func toggleWindowFloating(_ sender: NSMenuItem?) {
-        let isFloating = window?.level == .some(.screenSaver)
-        window?.level = isFloating ? .normal : .screenSaver
+        let isFloating = window?.level == .some(.floating)
+        window?.level = isFloating ? .normal : .floating
         
         DefaultsController.shared.set(.floatingMagnifierWindow, to: !isFloating)
     }
@@ -119,7 +124,7 @@ extension MagnifierWindowController: NSMenuItemValidation {
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
             case #selector(toggleWindowFloating):
-                menuItem.state = window?.level == .some(.screenSaver) ? .on : .off
+                menuItem.state = window?.level == .some(.floating) ? .on : .off
                 return true
             
             default:

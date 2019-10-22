@@ -23,3 +23,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
 }
+
+extension AppDelegate: NSMenuItemValidation {
+    
+    @IBAction func toggleQuitWhenClose(_ sender: NSMenuItem?) {
+        let quitWhenClose = DefaultsController.shared.retrive(.quitWhenClose)
+        DefaultsController.shared.set(.quitWhenClose, to: !quitWhenClose)
+    }
+    
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        switch menuItem.action {
+            case #selector(toggleQuitWhenClose):
+                menuItem.state = DefaultsController.shared.retrive(.quitWhenClose) ? .on : .off
+                return true
+            
+            default:
+                return true
+        }
+    }
+    
+}
