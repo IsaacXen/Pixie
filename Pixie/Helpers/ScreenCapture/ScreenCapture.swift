@@ -15,6 +15,15 @@ class ScreenCapture: NSObject {
         
         return window.count > 0 ? .authorized : .denied
     }
+    
+    /// Present an authorization prompt if possible.
+    ///
+    /// This function simply call `CGWindowListCreateImage(:::)` to trigger a prompt presentation. The prompt is only presented on the first time. Once the prompt is presented, calling this function does nothing.
+    ///
+    /// It's your responsibility to present a helpful message to notify user to take action on the prompt, and guide user to *Screen Recording* section under *System Preference* -> *Security & Privacy* -> *Privacy* and allow your app to record the contents of the screen.
+    static func promptIfPossible() {
+        CGWindowListCreateImage(.infinite, .optionOnScreenOnly, kCGNullWindowID, [])
+    }
 
     static func captureScreen(centerOf origin: CGPoint, dw: CGFloat, dh: CGFloat, excluding windowId: CGWindowID) -> (CGFloat, CGPoint, CGImage?) {
         guard let screen = NSScreen.screens.first(where: { NSMouseInRect(origin, $0.frame, false) }) else {

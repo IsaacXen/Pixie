@@ -4,9 +4,27 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     let magnifierWindowController = MagnifierWindowController()
-
+        
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         magnifierWindowController.showWindow(nil)
+        
+        if ScreenCapture.authorizationStatus == .denied, let window = magnifierWindowController.window {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "Permission Required"
+            alert.informativeText = "Pixel required Screen Recording permission in order to capture contents of your screen."
+            alert.addButton(withTitle: "Allow in System Preferences...")
+            alert.addButton(withTitle: "Ignore")
+            alert.beginSheetModal(for: window) { response in
+                switch response {
+                    case .alertFirstButtonReturn:
+                        NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy")!)
+                    
+                    default: ()
+                }
+            }
+        }
+        
     }
 
     /// Hnadle reopen when clicking dock icon and launching from finder

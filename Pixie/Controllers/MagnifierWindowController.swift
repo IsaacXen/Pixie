@@ -2,6 +2,8 @@ import Cocoa
 
 /// The window controller of the main magnifier window.
 class MagnifierWindowController: NSWindowController, NSWindowDelegate {
+
+//    private var _willPresentSheet: Bool = false
     
     // MARK: - Loading Window
     
@@ -11,7 +13,7 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
         window?.collectionBehavior = [.init(rawValue: 0), .managed, .participatesInCycle, .fullScreenPrimary]
         window?.delegate = self
         window?.tabbingMode = .disallowed
-        
+        window?.isMovableByWindowBackground = true
         window?.titleVisibility = .hidden
         window?.titlebarAppearsTransparent = true
     }
@@ -103,6 +105,19 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     private var _titleBar: NSView? {
         window?.standardWindowButton(.closeButton)?.superview?.superview
     }
+    
+//    func window(_ window: NSWindow, willPositionSheet sheet: NSWindow, using rect: NSRect) -> NSRect {
+//        print(#function, window, sheet, rect)
+//
+//        _willPresentSheet = true
+//        updateTrackingAreas()
+//
+//        window.animator().titleVisibility = .visible
+//        window.animator().titlebarAppearsTransparent = false
+//        _titleBar?.animator().alphaValue = 1
+//
+//        return NSMakeRect(rect.minX, rect.maxY - 22, rect.width, 0)
+//    }
     
     // MARK: - Init
     

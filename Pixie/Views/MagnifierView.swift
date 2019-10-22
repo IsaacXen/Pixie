@@ -165,8 +165,8 @@ final class MagnifierView: NSView {
     }
     
     private func _occlusionStateDidChange(_ notificaiton: Notification) {
-        guard let window = notificaiton.object as? NSWindow else { return }
-        
+        guard let window = notificaiton.object as? NSWindow, self.window == .some(window) else { return }
+                
         if window.occlusionState.contains(.visible) {
             CVDisplayLinkStart(_displayLink)
         } else {
