@@ -30,20 +30,23 @@ extension MagnifierViewController: NSMenuItemValidation {
         setMagnification(to: factor)
     }
     
-    @IBAction func setMagnification(_ sender: NSMenuItem?) {
-        if let tag = sender?.tag {
-            setMagnification(to: CGFloat(tag))
-        }
+    @IBAction func setMagnification(_ sender: NSMenuItem) {
+        setMagnification(to: CGFloat(sender.tag))
     }
     
-    @IBAction func toggleGrid(_ sender: Any?) {
+    @IBAction func toggleGrid(_ sender: NSMenuItem) {
         magnifierView.showGrid.toggle()
         DefaultsController.shared.set(.showGrid, to: magnifierView.showGrid)
     }
     
-    @IBAction func toggleHotSpot(_ sender: Any?) {
+    @IBAction func toggleHotSpot(_ sender: NSMenuItem) {
         magnifierView.showHotSpot.toggle()
         DefaultsController.shared.set(.showHotSpot, to: magnifierView.showHotSpot)
+    }
+    
+    @IBAction func toggleMouseCoordinate(_ sender: NSMenuItem) {
+        showMouseCoordinate.toggle()
+        DefaultsController.shared.set(.showMouseCoordinate, to: showMouseCoordinate)
     }
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -55,13 +58,17 @@ extension MagnifierViewController: NSMenuItemValidation {
                 return magnifierView.magnificationFactor > 1
              
             case #selector(toggleGrid):
-                menuItem.state = magnifierView.canShowGrid ? magnifierView.showGrid ? .on : .off : .off
+                menuItem.title = magnifierView.canShowGrid ? magnifierView.showGrid ? "Hide Grid" : "Show Grid" : "Show Grid"
                 return magnifierView.canShowGrid
 
             case #selector(toggleHotSpot):
-                menuItem.state = magnifierView.showHotSpot ? .on : .off
+                menuItem.title = magnifierView.showHotSpot ? "Hide Mouse Hot-Spot" : "Show Mouse Hot-Spot"
                 return true
 
+            case #selector(toggleMouseCoordinate):
+                menuItem.title = showMouseCoordinate ? "Hide Mouse Coordinate" : "Show Mouse Coordinate"
+                return true
+            
             default:
                 return true
         }

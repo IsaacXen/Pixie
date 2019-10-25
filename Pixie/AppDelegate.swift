@@ -24,10 +24,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        
     }
 
-    /// Hnadle reopen when clicking dock icon and launching from finder
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         guard !flag else { return true }
         

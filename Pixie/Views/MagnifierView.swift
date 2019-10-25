@@ -1,11 +1,12 @@
+import FoundationExtended
 import Cocoa
 
 protocol MagnifierViewDelegate: class {
-    func magnifierView(_ view: MagnifierView, didUpdateMouseLocation locationInPoint: NSPoint)
+    func magnifierView(_ view: MagnifierView, didUpdateMouseLocation location: NSPoint, flippedLocation: NSPoint)
     func magnifierView(_ view: MagnifierView, color: NSColor?, atLocation loactionInPoint: NSPoint)
 }
 
-///
+/// ...
 ///
 /// The redraw of the view is driven by a display link object with a `CGScreen` object containing the window of this view. That is, the layers in this view is
 /// redraw in every screen frame update.
@@ -82,21 +83,22 @@ final class MagnifierView: NSView {
         let h = ceil((bounds.height / magnificationFactor - 1) / 2) + 1
         
         if let windowID = window?.windowNumber {
-            let (scale, offset, image) = ScreenCapture.captureScreen(centerOf: NSEvent.mouseLocation, dw: w, dh: h, excluding: CGWindowID(windowID))
-            
-            _imageLayer.contents = image
-            _imageLayer.frame = bounds
-                .offsetBy(dx: -offset.x * magnificationFactor / 2, dy: offset.y * -magnificationFactor / 2)
-                .offsetBy(dx: magnificationFactor / 4, dy: -magnificationFactor / 4)
-            
-            _imageLayer.contentsScale = 1 / magnificationFactor * scale
+            let result = ScreenCapture.captureScreenImage(around: NSEvent.mouseLocation, rx: w, ry: h, ecluding: CGWindowID(windowID))
 
-            delegate?.magnifierView(self, didUpdateMouseLocation: NSEvent.mouseLocation)
+            _imageLayer.contents = result.image
+                
+            _imageLayer.frame = bounds
+                .offsetBy(dx: _zoomedPixelWidthInPoint * result.imageOffsetFactor, dy: -_zoomedPixelWidthInPoint * result.imageOffsetFactor)
+                .offsetBy(dx: -_zoomedPixelWidthInPoint * result.subPixelOffset.x, dy: _zoomedPixelWidthInPoint * result.subPixelOffset.y)
             
-            if let image = image {
-                let color = NSBitmapImageRep(cgImage: image).colorAt(x: image.width / 2, y: image.height / 2 - 1)
-                delegate?.magnifierView(self, color: color, atLocation: NSEvent.mouseLocation)
-            }
+            _imageLayer.contentsScale = 1 / magnificationFactor * result.imageScaleFactor
+            
+            delegate?.magnifierView(self, didUpdateMouseLocation: result.mouseLocation, flippedLocation: result.flippedMouseLocation)
+            
+//            if let image = image {
+//                let color = NSBitmapImageRep(cgImage: image).colorAt(x: image.width / 2, y: image.height / 2 - 1)
+//                delegate?.magnifierView(self, color: color, atLocation: NSEvent.mouseLocation)
+//            }
         }
     }
         

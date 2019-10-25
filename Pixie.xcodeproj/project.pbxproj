@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,10 +12,10 @@
 		FF7A5819235B68DC002F4525 /* NSScreen+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A5818235B68DC002F4525 /* NSScreen+Extended.swift */; };
 		FF7A581B235B6C58002F4525 /* CGRect+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A581A235B6C58002F4525 /* CGRect+Extended.swift */; };
 		FF7A5820235C56D7002F4525 /* Clamping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A581F235C56D7002F4525 /* Clamping.swift */; };
-		FF7A5823235E0945002F4525 /* Floored.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A5822235E0945002F4525 /* Floored.swift */; };
 		FF8840632354A271003A912A /* DefaultsControllerSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */; };
 		FF8840652354A294003A912A /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840642354A294003A912A /* Default.swift */; };
 		FF8840672354A2B2003A912A /* Default+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840662354A2B2003A912A /* Default+UserDefaults.swift */; };
+		FF9C2F2D236330C700BB6603 /* FoundationExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FF9C2F2C236330C700BB6603 /* FoundationExtended */; };
 		FFAC437C23584CC600136AA6 /* NSPointerArray+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAC437B23584CC600136AA6 /* NSPointerArray+Extended.swift */; };
 		FFDF89502352FDFF005877DC /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF894F2352FDFF005877DC /* ScreenCapture.swift */; };
 		FFDF89522353072C005877DC /* DefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89512353072C005877DC /* DefaultsController.swift */; };
@@ -33,7 +33,6 @@
 		FF7A5818235B68DC002F4525 /* NSScreen+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extended.swift"; sourceTree = "<group>"; };
 		FF7A581A235B6C58002F4525 /* CGRect+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extended.swift"; sourceTree = "<group>"; };
 		FF7A581F235C56D7002F4525 /* Clamping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clamping.swift; sourceTree = "<group>"; };
-		FF7A5822235E0945002F4525 /* Floored.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Floored.swift; sourceTree = "<group>"; };
 		FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsControllerSubscriber.swift; sourceTree = "<group>"; };
 		FF8840642354A294003A912A /* Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Default.swift; sourceTree = "<group>"; };
 		FF8840662354A2B2003A912A /* Default+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Default+UserDefaults.swift"; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF9C2F2D236330C700BB6603 /* FoundationExtended in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				FF7A581F235C56D7002F4525 /* Clamping.swift */,
-				FF7A5822235E0945002F4525 /* Floored.swift */,
 			);
 			path = PropertyWarpper;
 			sourceTree = "<group>";
@@ -185,6 +184,9 @@
 			dependencies = (
 			);
 			name = Pixie;
+			packageProductDependencies = (
+				FF9C2F2C236330C700BB6603 /* FoundationExtended */,
+			);
 			productName = Pixie;
 			productReference = FFF3A043235091F100FF4110 /* Pixie.app */;
 			productType = "com.apple.product-type.application";
@@ -213,6 +215,9 @@
 				Base,
 			);
 			mainGroup = FFF3A03A235091F100FF4110;
+			packageReferences = (
+				FF9C2F2B236330C700BB6603 /* XCRemoteSwiftPackageReference "FoundationExtended" */,
+			);
 			productRefGroup = FFF3A044235091F100FF4110 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -242,7 +247,6 @@
 				FF8840632354A271003A912A /* DefaultsControllerSubscriber.swift in Sources */,
 				FF8840652354A294003A912A /* Default.swift in Sources */,
 				FF8840672354A2B2003A912A /* Default+UserDefaults.swift in Sources */,
-				FF7A5823235E0945002F4525 /* Floored.swift in Sources */,
 				FFDF89522353072C005877DC /* DefaultsController.swift in Sources */,
 				FF7A5820235C56D7002F4525 /* Clamping.swift in Sources */,
 				FFAC437C23584CC600136AA6 /* NSPointerArray+Extended.swift in Sources */,
@@ -399,6 +403,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nyrra33.Pixie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -419,6 +424,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nyrra33.Pixie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -447,6 +453,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FF9C2F2B236330C700BB6603 /* XCRemoteSwiftPackageReference "FoundationExtended" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:IsaacXen/FoundationExtended.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FF9C2F2C236330C700BB6603 /* FoundationExtended */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF9C2F2B236330C700BB6603 /* XCRemoteSwiftPackageReference "FoundationExtended" */;
+			productName = FoundationExtended;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FFF3A03B235091F100FF4110 /* Project object */;
 }

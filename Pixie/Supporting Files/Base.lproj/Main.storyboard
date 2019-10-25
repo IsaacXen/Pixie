@@ -119,6 +119,37 @@
                                                 <action selector="toggleHotSpot:" target="Ady-hI-5gd" id="aTS-yT-a7c"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Mouse Coordinate" id="3TG-yT-tB5">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Mouse Coordinate" id="eAM-o6-IOz">
+                                                <items>
+                                                    <menuItem title="Show Mouse Coordinate" id="v9V-1I-jah">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleMouseCoordinate:" target="Ady-hI-5gd" id="Oh0-El-FNw"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="oaC-Gq-ZTQ"/>
+                                                    <menuItem title="Primary Screen Coordinate" id="bEG-bA-4qL">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="Separate Screen Coordinate" id="VMa-di-bhS">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="3Q5-wp-XoF"/>
+                                                    <menuItem title="Flipped Coordinate" id="bRS-OA-q2s">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="Zc7-XD-Wrw"/>
+                                                    <menuItem title="In Point" id="uNj-gy-6er">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="In Pixel" id="nEN-D8-Wr7">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="P3B-je-ghv"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>

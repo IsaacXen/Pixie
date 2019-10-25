@@ -1,7 +1,14 @@
+import FoundationExtended
 import Cocoa
 
 class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
 
+    var showMouseCoordinate: Bool = false {
+        didSet {
+            _bottomLeftLabel.isHidden = !showMouseCoordinate
+        }
+    }
+    
     // MARK: Subviews
         
     lazy var magnifierView: MagnifierView = {
@@ -71,6 +78,7 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
         magnifierView.magnificationFactor = DefaultsController.shared.retrive(.magnificationFactor)
         magnifierView.showGrid = DefaultsController.shared.retrive(.showGrid)
         magnifierView.showHotSpot = DefaultsController.shared.retrive(.showHotSpot)
+        showMouseCoordinate = DefaultsController.shared.retrive(.showMouseCoordinate)
         
         DefaultsController.shared.addSubscriber(self)
     }
@@ -80,7 +88,9 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
             case Default<CGFloat>.magnificationFactor.keyPath:
                 let magnificationFactor = controller.retrive(.magnificationFactor)
                 magnifierView.magnificationFactor = magnificationFactor
-                print("magnificationFactor: \(magnificationFactor)x")
+            
+            case Default<Bool>.showMouseCoordinate.keyPath:
+                showMouseCoordinate = controller.retrive(.showMouseCoordinate)
             
             default: ()
         }
@@ -103,23 +113,14 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
 
 extension MagnifierViewController: MagnifierViewDelegate {
     
-    func magnifierView(_ view: MagnifierView, didUpdateMouseLocation locationInPoint: NSPoint) {
-        guard let keyScreen = NSScreen.hovered else {
+    func magnifierView(_ view: MagnifierView, didUpdateMouseLocation location: NSPoint, flippedLocation: NSPoint) {
+        guard showMouseCoordinate else { return }
+        guard let screen = NSScreen.screens.first(where: { NSMouseInRect(location, $0.frame, false) }) else {
             _bottomLeftLabel.stringValue = "(-, -)"
             return
         }
         
-        var x = floor(locationInPoint.x * keyScreen.backingScaleFactor)
-        var y = floor((keyScreen.frame.height - locationInPoint.y - keyScreen.frame.minY) * keyScreen.backingScaleFactor)
-        
-        if !mouseCoordinatesInPixel {
-            x = x / keyScreen.backingScaleFactor
-            y = y / keyScreen.backingScaleFactor
-            
-            _bottomLeftLabel.stringValue = String(format: "(%.1f, %.1f)", x, y)
-        } else {
-            _bottomLeftLabel.stringValue = String(format: "(%.0f, %.0f)", x, y)
-        }
+        _bottomLeftLabel.stringValue = String(format: "(%.1f, %.1f)", floor(flippedLocation.x, to: 1 / screen.backingScaleFactor), floor(flippedLocation.y, to: 1 / screen.backingScaleFactor))
     }
     
     func magnifierView(_ view: MagnifierView, color: NSColor?, atLocation loactionInPoint: NSPoint) {

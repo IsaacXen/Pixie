@@ -22,4 +22,8 @@ extension Default {
         return .init("showHotSpot", true)
     }
     
+    static var showMouseCoordinate: Default<Bool> {
+        return .init("showMouseCoordinate", false)
+    }
+    
 }
