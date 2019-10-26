@@ -9,6 +9,12 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
         }
     }
     
+    var mouseCoordinateInPixel: Bool = false
+    
+    var screensHasSeparateCooridinate: Bool = false
+    
+    var isMouseCoordinateFlipped: Bool = true
+    
     // MARK: Subviews
         
     lazy var magnifierView: MagnifierView = {
@@ -79,6 +85,9 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
         magnifierView.showGrid = DefaultsController.shared.retrive(.showGrid)
         magnifierView.showHotSpot = DefaultsController.shared.retrive(.showHotSpot)
         showMouseCoordinate = DefaultsController.shared.retrive(.showMouseCoordinate)
+        mouseCoordinateInPixel = DefaultsController.shared.retrive(.mouseCoordinateInPixel)
+        screensHasSeparateCooridinate = DefaultsController.shared.retrive(.screensHasSeparateCooridinate)
+        isMouseCoordinateFlipped = DefaultsController.shared.retrive(.isMouseCoordinateFlipped)
         
         DefaultsController.shared.addSubscriber(self)
     }
@@ -92,11 +101,20 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
             case Default<Bool>.showMouseCoordinate.keyPath:
                 showMouseCoordinate = controller.retrive(.showMouseCoordinate)
             
+            case Default<Bool>.mouseCoordinateInPixel.keyPath:
+                mouseCoordinateInPixel = controller.retrive(.mouseCoordinateInPixel)
+            
+            case Default<Bool>.screensHasSeparateCooridinate.keyPath:
+                screensHasSeparateCooridinate = controller.retrive(.screensHasSeparateCooridinate)
+            
+            case Default<Bool>.isMouseCoordinateFlipped.keyPath:
+                isMouseCoordinateFlipped = controller.retrive(.isMouseCoordinateFlipped)
+            
             default: ()
         }
     }
     
-    public var mouseCoordinatesInPixel: Bool = true
+//    public var mouseCoordinatesInPixel: Bool = true
     
     // MARK: - Responding to Keyboard & Mouse / Trackpad Events
     
@@ -120,7 +138,39 @@ extension MagnifierViewController: MagnifierViewDelegate {
             return
         }
         
-        _bottomLeftLabel.stringValue = String(format: "(%.1f, %.1f)", floor(flippedLocation.x, to: 1 / screen.backingScaleFactor), floor(flippedLocation.y, to: 1 / screen.backingScaleFactor))
+        let pixelWidth = 1 / screen.backingScaleFactor
+        
+        var x: CGFloat
+        var y: CGFloat
+        
+        switch (screensHasSeparateCooridinate, isMouseCoordinateFlipped) {
+            case (true, _):
+                let point = screen.convert(location, from: nil, flipped: isMouseCoordinateFlipped)
+                x = floor(point.x, to: pixelWidth).clamped(to: 0..<screen.frame.width, by: pixelWidth)
+                y = floor(point.y, to: pixelWidth).clamped(to: 0..<screen.frame.height, by: pixelWidth)
+                
+                if mouseCoordinateInPixel {
+                    x *= screen.backingScaleFactor
+                    y *= screen.backingScaleFactor
+                }
+            
+            case (false, true):
+                print(flippedLocation)
+                x = floor(flippedLocation.x, to: pixelWidth)
+                y = floor(flippedLocation.y, to: pixelWidth)
+            
+            case (false, false):
+                x = floor(location.x, to: pixelWidth)
+                y = floor(location.y, to: pixelWidth)
+        }
+        
+        if screen.backingScaleFactor == 1 || screensHasSeparateCooridinate && mouseCoordinateInPixel {
+            _bottomLeftLabel.stringValue = String(format: "(%.0f, %.0f)", x, y)
+        } else {
+            _bottomLeftLabel.stringValue = String(format: "(%.1f, %.1f)", x, y)
+        }
+        
+        _bottomLeftLabel.stringValue += screensHasSeparateCooridinate && mouseCoordinateInPixel ? "px" : "pt"
     }
     
     func magnifierView(_ view: MagnifierView, color: NSColor?, atLocation loactionInPoint: NSPoint) {

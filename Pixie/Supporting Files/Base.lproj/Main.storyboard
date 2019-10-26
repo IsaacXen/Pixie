@@ -130,22 +130,37 @@
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="oaC-Gq-ZTQ"/>
-                                                    <menuItem title="Primary Screen Coordinate" id="bEG-bA-4qL">
+                                                    <menuItem title="Primary Screen Coordinate" identifier="mouseCoordinateInPrimary" id="bEG-bA-4qL">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="togglePrimarySeparateScreenCoordinate:" target="Ady-hI-5gd" id="GF1-fV-J1M"/>
+                                                        </connections>
                                                     </menuItem>
-                                                    <menuItem title="Separate Screen Coordinate" id="VMa-di-bhS">
+                                                    <menuItem title="Separate Screen Coordinate" identifier="mouseCoordinateInSeparate" id="VMa-di-bhS">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="togglePrimarySeparateScreenCoordinate:" target="Ady-hI-5gd" id="og1-Jg-rMF"/>
+                                                        </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="3Q5-wp-XoF"/>
                                                     <menuItem title="Flipped Coordinate" id="bRS-OA-q2s">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleFlippedCoordinate:" target="Ady-hI-5gd" id="IG1-Y2-K1n"/>
+                                                        </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="Zc7-XD-Wrw"/>
-                                                    <menuItem title="In Point" id="uNj-gy-6er">
+                                                    <menuItem title="In Point" identifier="mouseCoordinateInPoint" id="uNj-gy-6er">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleMouseCoirdinateBetweenPixelAndPoint:" target="Ady-hI-5gd" id="7mJ-8c-Kki"/>
+                                                        </connections>
                                                     </menuItem>
-                                                    <menuItem title="In Pixel" id="nEN-D8-Wr7">
+                                                    <menuItem title="In Pixel" identifier="mouseCoordinateInPixel" id="nEN-D8-Wr7">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleMouseCoirdinateBetweenPixelAndPoint:" target="Ady-hI-5gd" id="AH0-ff-EpZ"/>
+                                                        </connections>
                                                     </menuItem>
                                                 </items>
                                             </menu>

@@ -26,4 +26,16 @@ extension Default {
         return .init("showMouseCoordinate", false)
     }
     
+    static var mouseCoordinateInPixel: Default<Bool> {
+        return .init("mouseCoordinateInPixel", false)
+    }
+    
+    static var screensHasSeparateCooridinate: Default<Bool> {
+        return .init("screensHasSeparateCooridinate", false)
+    }
+    
+    static var isMouseCoordinateFlipped: Default<Bool> {
+        return .init("isMouseCoordinateFlipped", true)
+    }
+    
 }

@@ -15,4 +15,24 @@ extension NSScreen {
         return screens.first(where: { NSMouseInRect(NSEvent.mouseLocation, $0.frame, false) })
     }
     
+    /// Convert a point from a screen coordinate to the receiver's coordinate.
+    /// - Parameter point: The `NSPoint` value to convert from. This function assume `point` is in `screen` coordinate system with bottom-left origin.
+    /// - Parameter screen: The screen object of which the `point` is coordinated.
+    /// - Parameter flipped: Specific whether the result point has a flipped coordinate. `true` means the result should has a coordinate origin top-left. `false` for bottom-left.
+    func convert(_ point: NSPoint, from screen: NSScreen?, flipped: Bool = false) -> NSPoint {
+        guard let fromScreen = screen ?? NSScreen.screens.first else { return point }
+        
+        var x, y: CGFloat
+        
+        if flipped {
+            x = point.x + fromScreen.frame.minX - frame.minX
+            y = frame.maxY - point.y + fromScreen.frame.minY
+        } else {
+            x = point.x + fromScreen.frame.minX - frame.minX
+            y = point.y + fromScreen.frame.minY - frame.minY
+        }
+        
+        return NSMakePoint(x, y)
+    }
+    
 }

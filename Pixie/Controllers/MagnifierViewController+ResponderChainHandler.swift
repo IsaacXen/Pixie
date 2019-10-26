@@ -49,6 +49,39 @@ extension MagnifierViewController: NSMenuItemValidation {
         DefaultsController.shared.set(.showMouseCoordinate, to: showMouseCoordinate)
     }
     
+    @IBAction func toggleMouseCoirdinateBetweenPixelAndPoint(_ sender: NSMenuItem) {
+        switch sender.identifier?.rawValue {
+            case "mouseCoordinateInPoint":
+                mouseCoordinateInPixel = false
+            
+            case "mouseCoordinateInPixel":
+                mouseCoordinateInPixel = true
+            
+            default: ()
+        }
+        
+        DefaultsController.shared.set(.mouseCoordinateInPixel, to: mouseCoordinateInPixel)
+    }
+    
+    @IBAction func toggleFlippedCoordinate(_ sender: NSMenuItem) {
+        isMouseCoordinateFlipped.toggle()
+        DefaultsController.shared.set(.isMouseCoordinateFlipped, to: isMouseCoordinateFlipped)
+    }
+    
+    @IBAction func togglePrimarySeparateScreenCoordinate(_ sender: NSMenuItem) {
+        switch sender.identifier?.rawValue {
+            case "mouseCoordinateInPrimary":
+                screensHasSeparateCooridinate = false
+            
+            case "mouseCoordinateInSeparate":
+                screensHasSeparateCooridinate = true
+            
+            default: ()
+        }
+        
+        DefaultsController.shared.set(.screensHasSeparateCooridinate, to: screensHasSeparateCooridinate)
+    }
+    
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
             case #selector(increaseMagnification), #selector(fastIncreaseMagnification):
@@ -63,15 +96,42 @@ extension MagnifierViewController: NSMenuItemValidation {
 
             case #selector(toggleHotSpot):
                 menuItem.title = magnifierView.showHotSpot ? "Hide Mouse Hot-Spot" : "Show Mouse Hot-Spot"
-                return true
 
             case #selector(toggleMouseCoordinate):
                 menuItem.title = showMouseCoordinate ? "Hide Mouse Coordinate" : "Show Mouse Coordinate"
-                return true
             
-            default:
-                return true
+            case #selector(toggleMouseCoirdinateBetweenPixelAndPoint):
+                switch menuItem.identifier?.rawValue {
+                    case "mouseCoordinateInPoint":
+                        menuItem.state = screensHasSeparateCooridinate ? mouseCoordinateInPixel ? .off : .on : .on
+                    
+                    case "mouseCoordinateInPixel":
+                        menuItem.state = screensHasSeparateCooridinate ? mouseCoordinateInPixel ? .on : .off : .off
+                    
+                    default: ()
+                }
+                return showMouseCoordinate && screensHasSeparateCooridinate
+            
+            case #selector(toggleFlippedCoordinate):
+                menuItem.state = isMouseCoordinateFlipped ? .on : .off
+                return showMouseCoordinate
+            
+            case #selector(togglePrimarySeparateScreenCoordinate):
+                switch menuItem.identifier?.rawValue {
+                    case "mouseCoordinateInPrimary":
+                        menuItem.state = screensHasSeparateCooridinate ? .off : .on
+                    
+                    case "mouseCoordinateInSeparate":
+                        menuItem.state = screensHasSeparateCooridinate ? .on : .off
+                    
+                    default: ()
+                }
+                return showMouseCoordinate
+            
+            default: ()
         }
+        
+        return true
     }
     
 }
