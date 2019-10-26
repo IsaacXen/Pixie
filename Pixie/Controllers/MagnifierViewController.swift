@@ -155,7 +155,6 @@ extension MagnifierViewController: MagnifierViewDelegate {
                 }
             
             case (false, true):
-                print(flippedLocation)
                 x = floor(flippedLocation.x, to: pixelWidth)
                 y = floor(flippedLocation.y, to: pixelWidth)
             
