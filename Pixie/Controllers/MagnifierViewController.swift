@@ -118,9 +118,9 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
     
     // MARK: - Responding to Keyboard & Mouse / Trackpad Events
     
-//    override func scrollWheel(with event: NSEvent) {
-//        setMagnification(to: magnifierView.magnificationFactor - event.deltaY)
-//    }
+    override func scrollWheel(with event: NSEvent) {
+        setMagnification(to: magnifierView.magnificationFactor - event.deltaY)
+    }
     
     func setMagnification(to magnificationFactor: CGFloat) {
         let clamped = max(1, min(magnificationFactor, 128))
