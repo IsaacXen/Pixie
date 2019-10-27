@@ -9,6 +9,12 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
         }
     }
     
+    var showColorValue: Bool = false {
+        didSet {
+            _bottomRightLabel.isHidden = !showColorValue
+        }
+    }
+    
     var mouseCoordinateInPixel: Bool = false
     
     var screensHasSeparateCooridinate: Bool = false
@@ -88,6 +94,7 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
         mouseCoordinateInPixel = DefaultsController.shared.retrive(.mouseCoordinateInPixel)
         screensHasSeparateCooridinate = DefaultsController.shared.retrive(.screensHasSeparateCooridinate)
         isMouseCoordinateFlipped = DefaultsController.shared.retrive(.isMouseCoordinateFlipped)
+        showColorValue = DefaultsController.shared.retrive(.showColorValue)
         
         DefaultsController.shared.addSubscriber(self)
     }
@@ -110,12 +117,13 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
             case Default<Bool>.isMouseCoordinateFlipped.keyPath:
                 isMouseCoordinateFlipped = controller.retrive(.isMouseCoordinateFlipped)
             
+            case Default<Bool>.showColorValue.keyPath:
+                showColorValue = controller.retrive(.showColorValue)
+            
             default: ()
         }
     }
-    
-//    public var mouseCoordinatesInPixel: Bool = true
-    
+        
     // MARK: - Responding to Keyboard & Mouse / Trackpad Events
     
     override func scrollWheel(with event: NSEvent) {
@@ -130,7 +138,7 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
 }
 
 extension MagnifierViewController: MagnifierViewDelegate {
-    
+
     func magnifierView(_ view: MagnifierView, didUpdateMouseLocation location: NSPoint, flippedLocation: NSPoint) {
         guard showMouseCoordinate else { return }
         guard let screen = NSScreen.screens.first(where: { NSMouseInRect(location, $0.frame, false) }) else {
@@ -172,12 +180,8 @@ extension MagnifierViewController: MagnifierViewDelegate {
         _bottomLeftLabel.stringValue += screensHasSeparateCooridinate && mouseCoordinateInPixel ? "px" : "pt"
     }
     
-    func magnifierView(_ view: MagnifierView, color: NSColor?, atLocation loactionInPoint: NSPoint) {
-        if let color = color {
-            _bottomRightLabel.stringValue = String(format: "sRGB(%.3f, %.3f, %.3f)", color.redComponent, color.greenComponent, color.blueComponent)
-        } else {
-            _bottomRightLabel.stringValue = "(-, -, -)"
-        }
+    func magnifierView(_ view: MagnifierView, colorAtMouseHotSpot color: NSColor) {
+        
     }
     
 }

@@ -38,4 +38,8 @@ extension Default {
         return .init("isMouseCoordinateFlipped", true)
     }
     
+    static var showColorValue: Default<Bool> {
+        return .init("showColorValue", false)
+    }
+    
 }

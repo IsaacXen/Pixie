@@ -3,7 +3,7 @@ import Cocoa
 
 protocol MagnifierViewDelegate: class {
     func magnifierView(_ view: MagnifierView, didUpdateMouseLocation location: NSPoint, flippedLocation: NSPoint)
-    func magnifierView(_ view: MagnifierView, color: NSColor?, atLocation loactionInPoint: NSPoint)
+    func magnifierView(_ view: MagnifierView, colorAtMouseHotSpot color: NSColor)
 }
 
 /// ...
@@ -31,6 +31,21 @@ final class MagnifierView: NSView {
     var canShowGrid: Bool {
         magnificationFactor >= 8
     }
+    
+    var lockX: Bool = false {
+        didSet {
+            if !lockX { _freezedX = nil }
+        }
+    }
+    
+    var lockY: Bool = false {
+        didSet {
+            if !lockY { _freezedY = nil }
+        }
+    }
+    
+    private var _freezedX: CGFloat? = nil
+    private var _freezedY: CGFloat? = nil
     
     // MARK: - Layers
     
@@ -83,7 +98,19 @@ final class MagnifierView: NSView {
         let h = ceil((bounds.height / magnificationFactor - 1) / 2) + 1
         
         if let windowID = window?.windowNumber {
-            let result = ScreenCapture.captureScreenImage(around: NSEvent.mouseLocation, rx: w, ry: h, ecluding: CGWindowID(windowID))
+            var mouseLocation = NSEvent.mouseLocation
+            
+            if lockX {
+                mouseLocation.x = _freezedX ?? mouseLocation.x
+                _freezedX = mouseLocation.x
+            }
+            
+            if lockY {
+                mouseLocation.y = _freezedY ?? mouseLocation.y
+                _freezedY = mouseLocation.y
+            }
+            
+            let result = ScreenCapture.captureScreenImage(around: mouseLocation, rx: w, ry: h, ecluding: CGWindowID(windowID))
 
             _imageLayer.contents = result.image
                 

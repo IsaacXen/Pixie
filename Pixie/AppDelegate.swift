@@ -8,13 +8,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         magnifierWindowController.showWindow(nil)
         
+        // check for authorization status
         if ScreenCapture.authorizationStatus == .denied, let window = magnifierWindowController.window {
             let alert = NSAlert()
             alert.alertStyle = .warning
-            alert.messageText = "Permission Required"
-            alert.informativeText = "Pixel required Screen Recording permission in order to capture contents of your screen."
-            alert.addButton(withTitle: "Allow in System Preferences...")
-            alert.addButton(withTitle: "Ignore")
+            alert.messageText = NSLocalizedString("alert.permission.text", comment: "title")
+            alert.informativeText = NSLocalizedString("alert.permission.info", comment: "body")
+            alert.addButton(withTitle: NSLocalizedString("alert.permission.allow", comment: "button"))
+            alert.addButton(withTitle: NSLocalizedString("alert.common.ignore", comment: "button"))
             alert.beginSheetModal(for: window) { response in
                 switch response {
                     case .alertFirstButtonReturn:

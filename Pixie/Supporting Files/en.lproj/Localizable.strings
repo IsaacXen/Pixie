@@ -1,0 +1,16 @@
+"view.lock-x" = "Lock Horizontal";
+"view.unlock-x" = "Unlock Horizontal";
+"view.lock-y" = "Lock Vertical";
+"view.unlock-y" = "Unlock Vertical";
+"view.lock-both" = "Lock Both";
+"view.unlock-both" = "Unlock Both";
+"view.show-grid" = "Show Grid";
+"view.hide-grid" = "Hide Grid";
+"view.show-mouse-hotspot" = "Show Mouse Hot-Spot";
+"view.hide-mouse-hotspot" = "Hide Mouse Hot-Spot";
+"view.show-mouse-coordinate" = "Show Mouse Coordinate";
+"view.hide-mouse-coordinate" = "Hide Mouse Coordinate";
+"alert.permission.text" = "Permission Required";
+"alert.permission.info" = "Pixel required Screen Recording permission in order to capture contents of your screen.";
+"alert.permission.allow" = "Allow in System Preferences...";
+"alert.common.ignore" = "Ignore";

@@ -74,13 +74,13 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
-                                        <menuItem title="Page Setup…" keyEquivalent="P" id="qIS-W8-SiK">
+                                        <menuItem title="Page Setup…" hidden="YES" keyEquivalent="P" id="qIS-W8-SiK">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="runPageLayout:" target="Ady-hI-5gd" id="Din-rz-gC5"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Print…" keyEquivalent="p" id="aTl-1u-JFS">
+                                        <menuItem title="Print…" hidden="YES" keyEquivalent="p" id="aTl-1u-JFS">
                                             <connections>
                                                 <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
                                             </connections>
@@ -103,9 +103,23 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Lock Image" hidden="YES" keyEquivalent="l" id="rRA-mA-lqm"/>
-                                        <menuItem title="Lock Horizontal" hidden="YES" keyEquivalent="x" id="ydZ-Yf-9o3"/>
-                                        <menuItem title="Lock Vertical" hidden="YES" keyEquivalent="y" id="Ega-aa-own"/>
+                                        <menuItem title="Freeze Image" hidden="YES" keyEquivalent="f" id="rRA-mA-lqm"/>
+                                        <menuItem isSeparatorItem="YES" id="oKx-lS-vlQ"/>
+                                        <menuItem title="Lock Horizontal" keyEquivalent="x" id="ydZ-Yf-9o3">
+                                            <connections>
+                                                <action selector="toggleLockX:" target="Ady-hI-5gd" id="7aw-ji-y1q"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Lock Vertical" keyEquivalent="y" id="Ega-aa-own">
+                                            <connections>
+                                                <action selector="toggleLockY:" target="Ady-hI-5gd" id="yYA-ds-dhZ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Lock Both" keyEquivalent="l" id="2Kj-Dh-825">
+                                            <connections>
+                                                <action selector="toggleLockBoth:" target="Ady-hI-5gd" id="R7z-w3-fVH"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                                         <menuItem title="Show Grid" id="CZT-iT-nXy">
                                             <modifierMask key="keyEquivalentModifierMask"/>
