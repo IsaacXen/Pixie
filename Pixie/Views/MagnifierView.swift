@@ -47,6 +47,19 @@ final class MagnifierView: NSView {
     private var _freezedX: CGFloat? = nil
     private var _freezedY: CGFloat? = nil
     
+    private var _needFreeze = false
+    
+    var isFreezed: Bool = false {
+        didSet {
+            _needFreeze = isFreezed
+            if !isFreezed {
+                CVDisplayLinkStart(_displayLink)
+            }
+        }
+    }
+    
+    private var _freezedResult: ScreenCapture.Result?
+    
     // MARK: - Layers
     
     private let _imageLayer = CALayer()
@@ -94,6 +107,18 @@ final class MagnifierView: NSView {
     }
     
     private func _updateImageLayer(in rect: NSRect) {
+        guard !isFreezed || isFreezed && _needFreeze else {
+            if let result = _freezedResult {
+                _imageLayer.contents = result.image
+                
+                _imageLayer.frame = bounds
+                    .offsetBy(dx: _zoomedPixelWidthInPoint * result.imageOffsetFactor, dy: -_zoomedPixelWidthInPoint * result.imageOffsetFactor)
+                    .offsetBy(dx: -_zoomedPixelWidthInPoint * result.subPixelOffset.x, dy: _zoomedPixelWidthInPoint * result.subPixelOffset.y)
+            }
+            
+            return
+        }
+        
         let w = ceil((bounds.width / magnificationFactor - 1) / 2) + 1
         let h = ceil((bounds.height / magnificationFactor - 1) / 2) + 1
         
@@ -126,6 +151,12 @@ final class MagnifierView: NSView {
 //                let color = NSBitmapImageRep(cgImage: image).colorAt(x: image.width / 2, y: image.height / 2 - 1)
 //                delegate?.magnifierView(self, color: color, atLocation: NSEvent.mouseLocation)
 //            }
+            
+            if _needFreeze {
+                _freezedResult = result
+                _needFreeze = false
+                CVDisplayLinkStop(_displayLink)
+            }
         }
     }
         
@@ -183,13 +214,13 @@ final class MagnifierView: NSView {
             guard let ctx = ctx else { return kCVReturnError }
             let context = Unmanaged<MagnifierView>.fromOpaque(ctx).takeUnretainedValue()
             DispatchQueue.main.async {
-                // TODO: display image layer only
                 context.needsDisplay = true
-//                context._imageLayer.display()
             }
             return kCVReturnSuccess
         }, Unmanaged.passUnretained(self).toOpaque())
     }
+    
+    
     
     // MARK: -
     
@@ -198,13 +229,14 @@ final class MagnifierView: NSView {
     }
     
     private func _occlusionStateDidChange(_ notificaiton: Notification) {
-        guard let window = notificaiton.object as? NSWindow, self.window == .some(window) else { return }
-                
+        guard !isFreezed, let window = notificaiton.object as? NSWindow, self.window == .some(window) else { return }
+        
         if window.occlusionState.contains(.visible) {
             CVDisplayLinkStart(_displayLink)
         } else {
             CVDisplayLinkStop(_displayLink)
         }
+        
     }
     
     // MARK: -

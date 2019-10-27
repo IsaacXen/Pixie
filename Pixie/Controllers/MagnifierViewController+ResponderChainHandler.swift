@@ -100,6 +100,10 @@ extension MagnifierViewController: NSMenuItemValidation {
         }
     }
     
+    @IBAction func toggleFreeze(_ sender: NSMenuItem) {
+        magnifierView.isFreezed.toggle()
+    }
+    
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         switch menuItem.action {
             case #selector(increaseMagnification), #selector(fastIncreaseMagnification):
@@ -109,21 +113,14 @@ extension MagnifierViewController: NSMenuItemValidation {
                 return magnifierView.magnificationFactor > 1
              
             case #selector(toggleGrid):
-                let onString = NSLocalizedString("view.show-grid", comment: "menuitem")
-                let offString = NSLocalizedString("view.hide-grid", comment: "menuitem")
-                menuItem.title = magnifierView.canShowGrid ? magnifierView.showGrid ? offString : onString : onString
-                
+                menuItem.title = magnifierView.canShowGrid ? magnifierView.showGrid ? .localized("view.hide-grid") : .localized("view.show-grid") : .localized("view.show-grid")
                 return magnifierView.canShowGrid
 
             case #selector(toggleHotSpot):
-                let onString = NSLocalizedString("view.show-mouse-hotspot", comment: "menuitem")
-                let offString = NSLocalizedString("view.hide-mouse-hotspot", comment: "menuitem")
-                menuItem.title = magnifierView.showHotSpot ? offString : onString
+                menuItem.title = magnifierView.showHotSpot ? .localized("view.hide-mouse-hotspot") : .localized("view.show-mouse-hotspot")
 
             case #selector(toggleMouseCoordinate):
-                let onString = NSLocalizedString("view.show-mouse-coordinate", comment: "menuitem")
-                let offString = NSLocalizedString("view.hide-mouse-coordinate", comment: "menuitem")
-                menuItem.title = showMouseCoordinate ? offString : onString
+                menuItem.title = showMouseCoordinate ? .localized("view.hide-mouse-coordinate") : .localized("view.show-mouse-coordinate")
             
             case #selector(toggleMouseCoirdinateBetweenPixelAndPoint):
                 switch menuItem.identifier?.rawValue {
@@ -161,6 +158,9 @@ extension MagnifierViewController: NSMenuItemValidation {
             
             case #selector(toggleLockBoth):
                 menuItem.title = magnifierView.lockX && magnifierView.lockY ? .localized("view.unlock-both") : .localized("view.lock-both")
+            
+            case #selector(toggleFreeze):
+                menuItem.title = magnifierView.isFreezed ? .localized("view.unfreeze") : .localized("view.freeze")
             
             default: ()
         }

@@ -103,7 +103,11 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="View" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Freeze Image" hidden="YES" keyEquivalent="f" id="rRA-mA-lqm"/>
+                                        <menuItem title="Freeze Image" keyEquivalent="f" id="rRA-mA-lqm">
+                                            <connections>
+                                                <action selector="toggleFreeze:" target="Ady-hI-5gd" id="Ywk-h0-ywc"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="oKx-lS-vlQ"/>
                                         <menuItem title="Lock Horizontal" keyEquivalent="x" id="ydZ-Yf-9o3">
                                             <connections>

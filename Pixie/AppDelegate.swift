@@ -12,10 +12,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if ScreenCapture.authorizationStatus == .denied, let window = magnifierWindowController.window {
             let alert = NSAlert()
             alert.alertStyle = .warning
-            alert.messageText = NSLocalizedString("alert.permission.text", comment: "title")
-            alert.informativeText = NSLocalizedString("alert.permission.info", comment: "body")
-            alert.addButton(withTitle: NSLocalizedString("alert.permission.allow", comment: "button"))
-            alert.addButton(withTitle: NSLocalizedString("alert.common.ignore", comment: "button"))
+            alert.messageText = .localized("alert.permission.text")
+            alert.informativeText = .localized("alert.permission.info")
+            alert.addButton(withTitle: .localized("alert.permission.allow"))
+            alert.addButton(withTitle: .localized("alert.common.ignore"))
             alert.beginSheetModal(for: window) { response in
                 switch response {
                     case .alertFirstButtonReturn:

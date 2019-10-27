@@ -1,3 +1,5 @@
+"view.freeze" = "Freeze Image";
+"view.unfreeze" = "Unfreeze Image";
 "view.lock-x" = "Lock Horizontal";
 "view.unlock-x" = "Unlock Horizontal";
 "view.lock-y" = "Lock Vertical";
