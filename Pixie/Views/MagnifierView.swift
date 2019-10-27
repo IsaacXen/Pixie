@@ -114,6 +114,8 @@ final class MagnifierView: NSView {
                 _imageLayer.frame = bounds
                     .offsetBy(dx: _zoomedPixelWidthInPoint * result.imageOffsetFactor, dy: -_zoomedPixelWidthInPoint * result.imageOffsetFactor)
                     .offsetBy(dx: -_zoomedPixelWidthInPoint * result.subPixelOffset.x, dy: _zoomedPixelWidthInPoint * result.subPixelOffset.y)
+                
+                _imageLayer.contentsScale = 1 / magnificationFactor * result.imageScaleFactor
             }
             
             return
