@@ -84,14 +84,14 @@ class ScreenCapture: NSObject {
         //        let yPx = floor(mouseLocationPtInPrimaryTopLeft.y, to: 1 / hoveredScreen.backingScaleFactor)
                     
         var backingScaleFactor: CGFloat {
-            let screen = NSScreen.screens.first(where: { NSMouseInRect(mouseLocation, $0.frame, true) })
+            let screen = NSScreen.screens.first(where: { NSMouseInRect(mouseLocation, $0.frame, false) })
             return screen?.backingScaleFactor ?? 1
         }
         
         var imageScaleFactor: CGFloat = 1
         
         var screenFrame: NSRect {
-            let screen = NSScreen.screens.first(where: { NSMouseInRect(mouseLocation, $0.frame, true) })
+            let screen = NSScreen.screens.first(where: { NSMouseInRect(mouseLocation, $0.frame, false) })
             return screen?.frame ?? .zero
         }
         
@@ -106,7 +106,7 @@ class ScreenCapture: NSObject {
         }
         
         var imageOffsetFactor: CGFloat {
-            if backingScaleFactor <= 1 {
+            if backingScaleFactor < 1 {
                 return 0
             } else {
                 return 1 / backingScaleFactor
