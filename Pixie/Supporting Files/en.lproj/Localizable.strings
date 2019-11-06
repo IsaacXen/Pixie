@@ -12,6 +12,8 @@
 "view.hide-mouse-hotspot" = "Hide Mouse Hot-Spot";
 "view.show-mouse-coordinate" = "Show Mouse Coordinate";
 "view.hide-mouse-coordinate" = "Hide Mouse Coordinate";
+"view.show-color-value" = "Show Color Value";
+"view.hide-color-value" = "Hide Color Value";
 "alert.permission.text" = "Permission Required";
 "alert.permission.info" = "Pixel required Screen Recording permission in order to capture contents of your screen.";
 "alert.permission.allow" = "Allow in System Preferences...";

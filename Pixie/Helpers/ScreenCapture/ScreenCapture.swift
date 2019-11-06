@@ -106,11 +106,19 @@ class ScreenCapture: NSObject {
         }
         
         var imageOffsetFactor: CGFloat {
-            if backingScaleFactor < 1 {
+            if backingScaleFactor <= 1 {
                 return 0
             } else {
                 return 1 / backingScaleFactor
             }
+        }
+        
+        var colorAtHotSpot: NSColor? {
+            guard let image = image else { return nil }
+            let x = image.width / 2 - 1 + Int(subPixelOffset.x)
+            let y = image.height / 2 - 1 + Int(subPixelOffset.y)
+            let color = NSBitmapImageRep(cgImage: image).colorAt(x: x, y: y)
+            return color
         }
     }
 

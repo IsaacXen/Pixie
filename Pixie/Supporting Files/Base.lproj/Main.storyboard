@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
     </dependencies>
     <scenes>
@@ -181,6 +182,54 @@
                                                         </connections>
                                                     </menuItem>
                                                 </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem title="Color Value" id="q9T-8P-uLM">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Color Value" id="Yja-Du-LiD">
+                                                <items>
+                                                    <menuItem title="Show Color Value" id="UlC-b0-0qK">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleColorValue:" target="Ady-hI-5gd" id="WEi-zQ-lOd"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" tag="-1" id="Ei0-jj-PQN"/>
+                                                    <menuItem title="Color Model" tag="1" enabled="NO" identifier="colorModel" id="3Uw-ZN-69L">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                    <menuItem title="Grayscale" identifier="grayscale" id="Tre-9v-4RP">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleColorModel:" target="Ady-hI-5gd" id="lQZ-tJ-IZ3"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="RGB" identifier="rgb" id="a98-P1-Gw9">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleColorModel:" target="Ady-hI-5gd" id="WNp-Sh-igD"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="CMYK" identifier="cmyk" id="bTD-HA-3bn">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleColorModel:" target="Ady-hI-5gd" id="zPR-Nw-pRD"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="HSB" identifier="hsb" id="6aa-Mu-ouC">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="toggleColorModel:" target="Ady-hI-5gd" id="eCE-xj-8wb"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" tag="-1" id="ZZF-3n-f8z"/>
+                                                    <menuItem title="Color Profile" tag="2" enabled="NO" identifier="colorProfile" id="a3F-6a-5nS">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                    </menuItem>
+                                                </items>
+                                                <connections>
+                                                    <outlet property="delegate" destination="Voe-Tx-rLC" id="Q54-7y-Bpr"/>
+                                                </connections>
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="P3B-je-ghv"/>

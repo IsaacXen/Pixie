@@ -2,7 +2,7 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    
     let magnifierWindowController = MagnifierWindowController()
         
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -19,6 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             alert.beginSheetModal(for: window) { response in
                 switch response {
                     case .alertFirstButtonReturn:
+                        // currently there's no anchor to Screen Recording provided.
                         NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy")!)
                     
                     default: ()
@@ -37,26 +38,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         return false
-    }
-    
-}
-
-extension AppDelegate: NSMenuItemValidation {
-    
-    @IBAction func toggleQuitWhenClose(_ sender: NSMenuItem?) {
-        let quitWhenClose = DefaultsController.shared.retrive(.quitWhenClose)
-        DefaultsController.shared.set(.quitWhenClose, to: !quitWhenClose)
-    }
-    
-    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        switch menuItem.action {
-            case #selector(toggleQuitWhenClose):
-                menuItem.state = DefaultsController.shared.retrive(.quitWhenClose) ? .on : .off
-                return true
-            
-            default:
-                return true
-        }
     }
     
 }

@@ -1,4 +1,6 @@
 import Cocoa
+import CocoaExtended
+import PreferencesController
 
 extension MagnifierViewController: NSMenuItemValidation {
     
@@ -36,17 +38,18 @@ extension MagnifierViewController: NSMenuItemValidation {
     
     @IBAction func toggleGrid(_ sender: NSMenuItem) {
         magnifierView.showGrid.toggle()
-        DefaultsController.shared.set(.showGrid, to: magnifierView.showGrid)
+        PreferencesController.shared.save(magnifierView.showGrid, to: .showGrid)
+        
     }
     
     @IBAction func toggleHotSpot(_ sender: NSMenuItem) {
         magnifierView.showHotSpot.toggle()
-        DefaultsController.shared.set(.showHotSpot, to: magnifierView.showHotSpot)
+        PreferencesController.shared.save(magnifierView.showHotSpot, to: .showHotSpot)
     }
     
     @IBAction func toggleMouseCoordinate(_ sender: NSMenuItem) {
         showMouseCoordinate.toggle()
-        DefaultsController.shared.set(.showMouseCoordinate, to: showMouseCoordinate)
+        PreferencesController.shared.save(showMouseCoordinate, to: .showMouseCoordinate)
     }
     
     @IBAction func toggleMouseCoirdinateBetweenPixelAndPoint(_ sender: NSMenuItem) {
@@ -60,12 +63,12 @@ extension MagnifierViewController: NSMenuItemValidation {
             default: ()
         }
         
-        DefaultsController.shared.set(.mouseCoordinateInPixel, to: mouseCoordinateInPixel)
+        PreferencesController.shared.save(mouseCoordinateInPixel, to: .mouseCoordinateInPixel)
     }
     
     @IBAction func toggleFlippedCoordinate(_ sender: NSMenuItem) {
         isMouseCoordinateFlipped.toggle()
-        DefaultsController.shared.set(.isMouseCoordinateFlipped, to: isMouseCoordinateFlipped)
+        PreferencesController.shared.save(isMouseCoordinateFlipped, to: .isMouseCoordinateFlipped)
     }
     
     @IBAction func togglePrimarySeparateScreenCoordinate(_ sender: NSMenuItem) {
@@ -79,7 +82,7 @@ extension MagnifierViewController: NSMenuItemValidation {
             default: ()
         }
         
-        DefaultsController.shared.set(.screensHasSeparateCooridinate, to: screensHasSeparateCooridinate)
+        PreferencesController.shared.save(screensHasSeparateCooridinate, to: .screensHasSeparateCooridinate)
     }
     
     @IBAction func toggleLockX(_ sender: NSMenuItem) {
@@ -102,6 +105,25 @@ extension MagnifierViewController: NSMenuItemValidation {
     
     @IBAction func toggleFreeze(_ sender: NSMenuItem) {
         magnifierView.isFreezed.toggle()
+    }
+    
+    @IBAction func toggleColorValue(_ sender: NSMenuItem) {
+        showColorValue.toggle()
+        PreferencesController.shared.save(showColorValue, to: .showColorValue)
+    }
+    
+    @IBAction func toggleColorModel(_ sender: NSMenuItem) {
+        guard let id = sender.identifier?.rawValue, let model = ColorModel(rawValue: id) else { return }
+        ColorValueController.shared.selectedColorModel = model
+    }
+    
+    @IBAction func toggleColorProfile(_ sender: NSMenuItem) {
+        guard
+            let colorProfileName = sender.identifier?.rawValue,
+            let colorSpace = ColorValueController.shared.colorSpace(withName: colorProfileName)
+        else { return }
+        
+        ColorValueController.shared.set(colorSpace: colorSpace, for: ColorValueController.shared.selectedColorModel)
     }
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -162,16 +184,22 @@ extension MagnifierViewController: NSMenuItemValidation {
             case #selector(toggleFreeze):
                 menuItem.title = magnifierView.isFreezed ? .localized("view.unfreeze") : .localized("view.freeze")
             
+            case #selector(toggleColorValue):
+                menuItem.title = showColorValue ? .localized("view.hide-color-value") : .localized("view.show-color-value")
+            
+            case #selector(toggleColorModel):
+                let menuItemMode = ColorModel(rawValue: menuItem.identifier?.rawValue ?? "")
+                menuItem.state = menuItemMode == ColorValueController.shared.selectedColorModel ? .on : .off
+            
+            case #selector(toggleColorProfile):
+                guard let menuItemIdentifier = menuItem.identifier?.rawValue else { return false }
+                let selectedColorProfile = ColorValueController.shared.selectedColorProfiles[ColorValueController.shared.selectedColorModel]
+                menuItem.state = menuItemIdentifier == selectedColorProfile ? .on : .off
+            
             default: ()
         }
         
         return true
     }
     
-}
-
-extension String {
-    static func localized(_ key: String) -> String {
-        NSLocalizedString(key, comment: key)
-    }
 }

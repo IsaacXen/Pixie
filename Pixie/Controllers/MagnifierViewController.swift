@@ -1,17 +1,13 @@
-import FoundationExtended
 import Cocoa
+import FoundationExtended
+import CocoaExtended
+import PreferencesController
 
-class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
-
+class MagnifierViewController: NSViewController, PreferencesControllerSubscriber {
+    
     var showMouseCoordinate: Bool = false {
         didSet {
             _bottomLeftLabel.isHidden = !showMouseCoordinate
-        }
-    }
-    
-    var showColorValue: Bool = false {
-        didSet {
-            _bottomRightLabel.isHidden = !showColorValue
         }
     }
     
@@ -20,6 +16,12 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
     var screensHasSeparateCooridinate: Bool = false
     
     var isMouseCoordinateFlipped: Bool = true
+    
+    var showColorValue: Bool = false {
+        didSet {
+            _bottomRightLabel.isHidden = !showColorValue
+        }
+    }
     
     // MARK: Subviews
         
@@ -81,49 +83,49 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
     
     override func viewDidLoad() {
         setupSubviews(in: view)
-        setupDefaults()
+        setupPreferences()
     }
     
     // MARK: - Loading User Settings
     
-    func setupDefaults() {
-        magnifierView.magnificationFactor = DefaultsController.shared.retrive(.magnificationFactor)
-        magnifierView.showGrid = DefaultsController.shared.retrive(.showGrid)
-        magnifierView.showHotSpot = DefaultsController.shared.retrive(.showHotSpot)
-        showMouseCoordinate = DefaultsController.shared.retrive(.showMouseCoordinate)
-        mouseCoordinateInPixel = DefaultsController.shared.retrive(.mouseCoordinateInPixel)
-        screensHasSeparateCooridinate = DefaultsController.shared.retrive(.screensHasSeparateCooridinate)
-        isMouseCoordinateFlipped = DefaultsController.shared.retrive(.isMouseCoordinateFlipped)
-        showColorValue = DefaultsController.shared.retrive(.showColorValue)
+    func setupPreferences() {
+        magnifierView.magnificationFactor = PreferencesController.shared.retrive(.magnificationFactor)
+        magnifierView.showGrid = PreferencesController.shared.retrive(.showGrid)
+        magnifierView.showHotSpot = PreferencesController.shared.retrive(.showHotSpot)
+        showMouseCoordinate = PreferencesController.shared.retrive(.showMouseCoordinate)
+        mouseCoordinateInPixel = PreferencesController.shared.retrive(.mouseCoordinateInPixel)
+        screensHasSeparateCooridinate = PreferencesController.shared.retrive(.screensHasSeparateCooridinate)
+        isMouseCoordinateFlipped = PreferencesController.shared.retrive(.isMouseCoordinateFlipped)
+        showColorValue = PreferencesController.shared.retrive(.showColorValue)
         
-        DefaultsController.shared.addSubscriber(self)
+        PreferencesController.shared.addSubscriber(self)
     }
     
-    func defaultsController(_ controller: DefaultsController, didChangeDefaultWithKeyPath keyPath: String) {
-        switch keyPath {
-            case Default<CGFloat>.magnificationFactor.keyPath:
+    func preferencesController(_ controller: PreferencesController, didChangePreferenceWithKey key: String, newValue: PropertyListRepresentable, oldValue: PropertyListRepresentable) {
+        switch key {
+            case Preference<CGFloat>.magnificationFactor.key:
                 let magnificationFactor = controller.retrive(.magnificationFactor)
                 magnifierView.magnificationFactor = magnificationFactor
             
-            case Default<Bool>.showMouseCoordinate.keyPath:
+            case Preference<Bool>.showMouseCoordinate.key:
                 showMouseCoordinate = controller.retrive(.showMouseCoordinate)
             
-            case Default<Bool>.mouseCoordinateInPixel.keyPath:
+            case Preference<Bool>.mouseCoordinateInPixel.key:
                 mouseCoordinateInPixel = controller.retrive(.mouseCoordinateInPixel)
             
-            case Default<Bool>.screensHasSeparateCooridinate.keyPath:
+            case Preference<Bool>.screensHasSeparateCooridinate.key:
                 screensHasSeparateCooridinate = controller.retrive(.screensHasSeparateCooridinate)
             
-            case Default<Bool>.isMouseCoordinateFlipped.keyPath:
+            case Preference<Bool>.isMouseCoordinateFlipped.key:
                 isMouseCoordinateFlipped = controller.retrive(.isMouseCoordinateFlipped)
             
-            case Default<Bool>.showColorValue.keyPath:
+            case Preference<Bool>.showColorValue.key:
                 showColorValue = controller.retrive(.showColorValue)
-            
+
             default: ()
         }
     }
-        
+    
     // MARK: - Responding to Keyboard & Mouse / Trackpad Events
     
     override func scrollWheel(with event: NSEvent) {
@@ -132,9 +134,9 @@ class MagnifierViewController: NSViewController, DefaultsControllerSubscriber {
     
     func setMagnification(to magnificationFactor: CGFloat) {
         let clamped = max(1, min(magnificationFactor, 128))
-        DefaultsController.shared.set(.magnificationFactor, to: clamped)
+        PreferencesController.shared.save(clamped, to: .magnificationFactor)
     }
-    
+
 }
 
 extension MagnifierViewController: MagnifierViewDelegate {
@@ -177,11 +179,14 @@ extension MagnifierViewController: MagnifierViewDelegate {
             _bottomLeftLabel.stringValue = String(format: "(%.1f, %.1f)", x, y)
         }
         
-        _bottomLeftLabel.stringValue += screensHasSeparateCooridinate && mouseCoordinateInPixel ? "px" : "pt"
     }
     
     func magnifierView(_ view: MagnifierView, colorAtMouseHotSpot color: NSColor) {
+        guard showColorValue else { return }
         
+        if let color = ColorValueController.shared.converColorToSelectedProfile(color) {
+            _bottomRightLabel.stringValue = ColorValueController.shared.colorDescriptionWithSelectedProfile(color)
+        }
     }
     
 }

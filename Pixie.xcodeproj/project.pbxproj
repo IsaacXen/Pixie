@@ -8,18 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		FF7A58152359BD13002F4525 /* RoundedTooltipsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A58142359BD13002F4525 /* RoundedTooltipsLabel.swift */; };
-		FF7A58172359C464002F4525 /* MagnifierViewController+ResponderChainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A58162359C464002F4525 /* MagnifierViewController+ResponderChainHandler.swift */; };
-		FF7A5819235B68DC002F4525 /* NSScreen+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A5818235B68DC002F4525 /* NSScreen+Extended.swift */; };
-		FF7A581B235B6C58002F4525 /* CGRect+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A581A235B6C58002F4525 /* CGRect+Extended.swift */; };
-		FF7A5820235C56D7002F4525 /* Clamping.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A581F235C56D7002F4525 /* Clamping.swift */; };
-		FF8840632354A271003A912A /* DefaultsControllerSubscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */; };
-		FF8840652354A294003A912A /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840642354A294003A912A /* Default.swift */; };
-		FF8840672354A2B2003A912A /* Default+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8840662354A2B2003A912A /* Default+UserDefaults.swift */; };
-		FF9C2F2D236330C700BB6603 /* FoundationExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FF9C2F2C236330C700BB6603 /* FoundationExtended */; };
+		FF7A58172359C464002F4525 /* MagnifierViewController+MenuItemActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A58162359C464002F4525 /* MagnifierViewController+MenuItemActions.swift */; };
 		FF9C2F32236494C300BB6603 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FF9C2F34236494C300BB6603 /* Localizable.strings */; };
-		FFAC437C23584CC600136AA6 /* NSPointerArray+Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAC437B23584CC600136AA6 /* NSPointerArray+Extended.swift */; };
+		FFCDD17F2371B418000531EE /* PreferencesController in Frameworks */ = {isa = PBXBuildFile; productRef = FFCDD17E2371B418000531EE /* PreferencesController */; };
+		FFCDD1822371B488000531EE /* Preference+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCDD1812371B488000531EE /* Preference+Custom.swift */; };
+		FFCDD1852371BF12000531EE /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCDD1842371BF12000531EE /* ColorModel.swift */; };
 		FFDF89502352FDFF005877DC /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF894F2352FDFF005877DC /* ScreenCapture.swift */; };
-		FFDF89522353072C005877DC /* DefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF89512353072C005877DC /* DefaultsController.swift */; };
+		FFE98CAA236F1196007C19F0 /* AppDelegate+MouseItemActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE98CA9236F1196007C19F0 /* AppDelegate+MouseItemActions.swift */; };
+		FFE98CAC236F1DA0007C19F0 /* AppDelegate+MenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE98CAB236F1DA0007C19F0 /* AppDelegate+MenuDelegate.swift */; };
+		FFE98CAE236F2B53007C19F0 /* ColorValueController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE98CAD236F2B53007C19F0 /* ColorValueController.swift */; };
+		FFE98CB123703B15007C19F0 /* CocoaExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FFE98CB023703B15007C19F0 /* CocoaExtended */; };
+		FFE98CBB237140AB007C19F0 /* FoundationExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FFE98CBA237140AB007C19F0 /* FoundationExtended */; };
 		FFF3A047235091F100FF4110 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A046235091F100FF4110 /* AppDelegate.swift */; };
 		FFF3A049235091F100FF4110 /* MagnifierViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A048235091F100FF4110 /* MagnifierViewController.swift */; };
 		FFF3A04B235091F400FF4110 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFF3A04A235091F400FF4110 /* Assets.xcassets */; };
@@ -30,18 +29,15 @@
 
 /* Begin PBXFileReference section */
 		FF7A58142359BD13002F4525 /* RoundedTooltipsLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTooltipsLabel.swift; sourceTree = "<group>"; };
-		FF7A58162359C464002F4525 /* MagnifierViewController+ResponderChainHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MagnifierViewController+ResponderChainHandler.swift"; sourceTree = "<group>"; };
-		FF7A5818235B68DC002F4525 /* NSScreen+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extended.swift"; sourceTree = "<group>"; };
-		FF7A581A235B6C58002F4525 /* CGRect+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extended.swift"; sourceTree = "<group>"; };
-		FF7A581F235C56D7002F4525 /* Clamping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clamping.swift; sourceTree = "<group>"; };
-		FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsControllerSubscriber.swift; sourceTree = "<group>"; };
-		FF8840642354A294003A912A /* Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Default.swift; sourceTree = "<group>"; };
-		FF8840662354A2B2003A912A /* Default+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Default+UserDefaults.swift"; sourceTree = "<group>"; };
+		FF7A58162359C464002F4525 /* MagnifierViewController+MenuItemActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MagnifierViewController+MenuItemActions.swift"; sourceTree = "<group>"; };
 		FF9C2F312364933000BB6603 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		FF9C2F33236494C300BB6603 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		FFAC437B23584CC600136AA6 /* NSPointerArray+Extended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPointerArray+Extended.swift"; sourceTree = "<group>"; };
+		FFCDD1812371B488000531EE /* Preference+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Preference+Custom.swift"; sourceTree = "<group>"; };
+		FFCDD1842371BF12000531EE /* ColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
 		FFDF894F2352FDFF005877DC /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
-		FFDF89512353072C005877DC /* DefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsController.swift; sourceTree = "<group>"; };
+		FFE98CA9236F1196007C19F0 /* AppDelegate+MouseItemActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+MouseItemActions.swift"; sourceTree = "<group>"; };
+		FFE98CAB236F1DA0007C19F0 /* AppDelegate+MenuDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+MenuDelegate.swift"; sourceTree = "<group>"; };
+		FFE98CAD236F2B53007C19F0 /* ColorValueController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueController.swift; sourceTree = "<group>"; };
 		FFF3A043235091F100FF4110 /* Pixie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFF3A046235091F100FF4110 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFF3A048235091F100FF4110 /* MagnifierViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifierViewController.swift; sourceTree = "<group>"; };
@@ -58,42 +54,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF9C2F2D236330C700BB6603 /* FoundationExtended in Frameworks */,
+				FFE98CBB237140AB007C19F0 /* FoundationExtended in Frameworks */,
+				FFE98CB123703B15007C19F0 /* CocoaExtended in Frameworks */,
+				FFCDD17F2371B418000531EE /* PreferencesController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FF7A581E235C5687002F4525 /* PropertyWarpper */ = {
-			isa = PBXGroup;
-			children = (
-				FF7A581F235C56D7002F4525 /* Clamping.swift */,
-			);
-			path = PropertyWarpper;
-			sourceTree = "<group>";
-		};
-		FF7A5821235E061F002F4525 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				FFAC437B23584CC600136AA6 /* NSPointerArray+Extended.swift */,
-				FF7A5818235B68DC002F4525 /* NSScreen+Extended.swift */,
-				FF7A581A235B6C58002F4525 /* CGRect+Extended.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		FF8840612354A223003A912A /* DefaultsController */ = {
-			isa = PBXGroup;
-			children = (
-				FFDF89512353072C005877DC /* DefaultsController.swift */,
-				FF8840622354A271003A912A /* DefaultsControllerSubscriber.swift */,
-				FF8840642354A294003A912A /* Default.swift */,
-				FF8840662354A2B2003A912A /* Default+UserDefaults.swift */,
-			);
-			path = DefaultsController;
-			sourceTree = "<group>";
-		};
 		FFB6C75C23545EF8007A5013 /* ScreenCapture */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,12 +71,26 @@
 			path = ScreenCapture;
 			sourceTree = "<group>";
 		};
+		FFCDD1802371B46D000531EE /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				FFCDD1812371B488000531EE /* Preference+Custom.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
+		FFCDD1832371BF01000531EE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FFCDD1842371BF12000531EE /* ColorModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		FFDF89422351DD48005877DC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				FF7A5821235E061F002F4525 /* Extensions */,
-				FF7A581E235C5687002F4525 /* PropertyWarpper */,
-				FF8840612354A223003A912A /* DefaultsController */,
+				FFCDD1802371B46D000531EE /* Preferences */,
 				FFB6C75C23545EF8007A5013 /* ScreenCapture */,
 			);
 			path = Helpers;
@@ -133,8 +116,11 @@
 			isa = PBXGroup;
 			children = (
 				FFF3A046235091F100FF4110 /* AppDelegate.swift */,
+				FFE98CA9236F1196007C19F0 /* AppDelegate+MouseItemActions.swift */,
+				FFE98CAB236F1DA0007C19F0 /* AppDelegate+MenuDelegate.swift */,
 				FFF3A0602351D7AD00FF4110 /* Controllers */,
 				FFF3A05F2351D7A700FF4110 /* Views */,
+				FFCDD1832371BF01000531EE /* Model */,
 				FFDF89422351DD48005877DC /* Helpers */,
 				FFF3A0582350AB7400FF4110 /* Supporting Files */,
 			);
@@ -167,7 +153,8 @@
 			children = (
 				FFF3A0562350AA4100FF4110 /* MagnifierWindowController.swift */,
 				FFF3A048235091F100FF4110 /* MagnifierViewController.swift */,
-				FF7A58162359C464002F4525 /* MagnifierViewController+ResponderChainHandler.swift */,
+				FF7A58162359C464002F4525 /* MagnifierViewController+MenuItemActions.swift */,
+				FFE98CAD236F2B53007C19F0 /* ColorValueController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -189,7 +176,9 @@
 			);
 			name = Pixie;
 			packageProductDependencies = (
-				FF9C2F2C236330C700BB6603 /* FoundationExtended */,
+				FFE98CB023703B15007C19F0 /* CocoaExtended */,
+				FFE98CBA237140AB007C19F0 /* FoundationExtended */,
+				FFCDD17E2371B418000531EE /* PreferencesController */,
 			);
 			productName = Pixie;
 			productReference = FFF3A043235091F100FF4110 /* Pixie.app */;
@@ -220,7 +209,9 @@
 			);
 			mainGroup = FFF3A03A235091F100FF4110;
 			packageReferences = (
-				FF9C2F2B236330C700BB6603 /* XCRemoteSwiftPackageReference "FoundationExtended" */,
+				FFE98CAF23703B15007C19F0 /* XCRemoteSwiftPackageReference "CocoaExtended" */,
+				FFE98CB9237140AB007C19F0 /* XCRemoteSwiftPackageReference "FoundationExtended" */,
+				FFCDD17D2371B418000531EE /* XCRemoteSwiftPackageReference "PreferencesController" */,
 			);
 			productRefGroup = FFF3A044235091F100FF4110 /* Products */;
 			projectDirPath = "";
@@ -249,21 +240,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF8840632354A271003A912A /* DefaultsControllerSubscriber.swift in Sources */,
-				FF8840652354A294003A912A /* Default.swift in Sources */,
-				FF8840672354A2B2003A912A /* Default+UserDefaults.swift in Sources */,
-				FFDF89522353072C005877DC /* DefaultsController.swift in Sources */,
-				FF7A5820235C56D7002F4525 /* Clamping.swift in Sources */,
-				FFAC437C23584CC600136AA6 /* NSPointerArray+Extended.swift in Sources */,
+				FFE98CAC236F1DA0007C19F0 /* AppDelegate+MenuDelegate.swift in Sources */,
+				FFE98CAE236F2B53007C19F0 /* ColorValueController.swift in Sources */,
 				FF7A58152359BD13002F4525 /* RoundedTooltipsLabel.swift in Sources */,
 				FFF3A0572350AA4100FF4110 /* MagnifierWindowController.swift in Sources */,
+				FFE98CAA236F1196007C19F0 /* AppDelegate+MouseItemActions.swift in Sources */,
 				FFF3A049235091F100FF4110 /* MagnifierViewController.swift in Sources */,
-				FF7A5819235B68DC002F4525 /* NSScreen+Extended.swift in Sources */,
 				FFF3A05C235196C800FF4110 /* MagnifierView.swift in Sources */,
-				FF7A581B235B6C58002F4525 /* CGRect+Extended.swift in Sources */,
-				FF7A58172359C464002F4525 /* MagnifierViewController+ResponderChainHandler.swift in Sources */,
+				FF7A58172359C464002F4525 /* MagnifierViewController+MenuItemActions.swift in Sources */,
 				FFF3A047235091F100FF4110 /* AppDelegate.swift in Sources */,
 				FFDF89502352FDFF005877DC /* ScreenCapture.swift in Sources */,
+				FFCDD1822371B488000531EE /* Preference+Custom.swift in Sources */,
+				FFCDD1852371BF12000531EE /* ColorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,20 +461,46 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FF9C2F2B236330C700BB6603 /* XCRemoteSwiftPackageReference "FoundationExtended" */ = {
+		FFCDD17D2371B418000531EE /* XCRemoteSwiftPackageReference "PreferencesController" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:IsaacXen/FoundationExtended.git";
+			repositoryURL = "file:///Users/ix4n33/Desktop/PreferencesController";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
+				branch = master;
+				kind = branch;
+			};
+		};
+		FFE98CAF23703B15007C19F0 /* XCRemoteSwiftPackageReference "CocoaExtended" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "file:///Users/ix4n33/Documents/gits/CocoaExtended";
+			requirement = {
+				branch = dev;
+				kind = branch;
+			};
+		};
+		FFE98CB9237140AB007C19F0 /* XCRemoteSwiftPackageReference "FoundationExtended" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "file:///Users/ix4n33/Documents/gits/FoundationExtended";
+			requirement = {
+				branch = dev;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FF9C2F2C236330C700BB6603 /* FoundationExtended */ = {
+		FFCDD17E2371B418000531EE /* PreferencesController */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FF9C2F2B236330C700BB6603 /* XCRemoteSwiftPackageReference "FoundationExtended" */;
+			package = FFCDD17D2371B418000531EE /* XCRemoteSwiftPackageReference "PreferencesController" */;
+			productName = PreferencesController;
+		};
+		FFE98CB023703B15007C19F0 /* CocoaExtended */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFE98CAF23703B15007C19F0 /* XCRemoteSwiftPackageReference "CocoaExtended" */;
+			productName = CocoaExtended;
+		};
+		FFE98CBA237140AB007C19F0 /* FoundationExtended */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFE98CB9237140AB007C19F0 /* XCRemoteSwiftPackageReference "FoundationExtended" */;
 			productName = FoundationExtended;
 		};
 /* End XCSwiftPackageProductDependency section */

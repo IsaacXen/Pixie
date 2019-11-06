@@ -1,5 +1,6 @@
-import FoundationExtended
 import Cocoa
+import FoundationExtended
+import CocoaExtended
 
 protocol MagnifierViewDelegate: class {
     func magnifierView(_ view: MagnifierView, didUpdateMouseLocation location: NSPoint, flippedLocation: NSPoint)
@@ -11,7 +12,7 @@ protocol MagnifierViewDelegate: class {
 /// The redraw of the view is driven by a display link object with a `CGScreen` object containing the window of this view. That is, the layers in this view is
 /// redraw in every screen frame update.
 ///
-/// By default, when the view is not visible to the user, the view will stop
+/// By default, when the view is not visible to the user, the view will stop update its layers. See `NSWindow.OcclusionState`.
 final class MagnifierView: NSView {
     
     weak var delegate: MagnifierViewDelegate?
@@ -59,7 +60,7 @@ final class MagnifierView: NSView {
     }
     
     private var _freezedResult: ScreenCapture.Result?
-    
+        
     // MARK: - Layers
     
     private let _imageLayer = CALayer()
@@ -149,10 +150,9 @@ final class MagnifierView: NSView {
             
             delegate?.magnifierView(self, didUpdateMouseLocation: result.mouseLocation, flippedLocation: result.flippedMouseLocation)
             
-//            if let image = image {
-//                let color = NSBitmapImageRep(cgImage: image).colorAt(x: image.width / 2, y: image.height / 2 - 1)
-//                delegate?.magnifierView(self, color: color, atLocation: NSEvent.mouseLocation)
-//            }
+            if let color = result.colorAtHotSpot {
+                delegate?.magnifierView(self, colorAtMouseHotSpot: color)
+            }
             
             if _needFreeze {
                 _freezedResult = result
@@ -222,12 +222,34 @@ final class MagnifierView: NSView {
         }, Unmanaged.passUnretained(self).toOpaque())
     }
     
+    // MARK: - Key Event Handling
     
+    override var acceptsFirstResponder: Bool {
+        return true
+    }
+    
+    override func moveUp(_ sender: Any?) {
+        NSEvent.postMouseMovedEvent(dx: 0, dy: 1 / (NSScreen.hovered?.backingScaleFactor ?? 1))
+    }
+    
+    override func moveDown(_ sender: Any?) {
+        NSEvent.postMouseMovedEvent(dx: 0, dy: -1 / (NSScreen.hovered?.backingScaleFactor ?? 1))
+    }
+    
+    override func moveRight(_ sender: Any?) {
+        NSEvent.postMouseMovedEvent(dx: 1 / (NSScreen.hovered?.backingScaleFactor ?? 1), dy: 0)
+    }
+    
+    override func moveLeft(_ sender: Any?) {
+        NSEvent.postMouseMovedEvent(dx: -1 / (NSScreen.hovered?.backingScaleFactor ?? 1), dy: 0)
+    }
     
     // MARK: -
     
+    private var _observer: NSObjectProtocol?
+    
     private func _observeForOcclusionStateChanges() {
-        NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: window, queue: .main, using: _occlusionStateDidChange)
+        _observer = NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification, object: window, queue: .main, using: _occlusionStateDidChange)
     }
     
     private func _occlusionStateDidChange(_ notificaiton: Notification) {
@@ -261,6 +283,12 @@ final class MagnifierView: NSView {
         viewDidLoad()
     }
     
+    deinit {
+        if let observer = _observer {
+            NotificationCenter.default.removeObserver(observer)
+            _observer = nil
+        }
+    }
 }
 
 extension MagnifierView {

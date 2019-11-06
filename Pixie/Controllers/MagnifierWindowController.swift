@@ -1,4 +1,5 @@
 import Cocoa
+import PreferencesController
 
 /// The window controller of the main magnifier window.
 class MagnifierWindowController: NSWindowController, NSWindowDelegate {
@@ -7,26 +8,25 @@ class MagnifierWindowController: NSWindowController, NSWindowDelegate {
     
     override func loadWindow() {
         window = NSWindow(contentRect: .zero, styleMask: [.titled, .closable, .resizable, .miniaturizable, .fullSizeContentView], backing: .buffered, defer: true)
+    }
+    
+    override func windowDidLoad() {
         window?.minSize = NSSize(width: 300, height: 300)
         window?.collectionBehavior = [.init(rawValue: 0), .managed, .participatesInCycle, .fullScreenPrimary]
         window?.delegate = self
         window?.title = "Pixie"
         window?.tabbingMode = .disallowed
-    }
-    
-    override func windowDidLoad() {
         // load content view conteoller
         contentViewController = MagnifierViewController()
         // setup frame autosave
         shouldCascadeWindows = false
         windowFrameAutosaveName = "magnifierWindow"
-        
-        let shouldFloat = DefaultsController.shared.retrive(.floatingMagnifierWindow)
-        window?.level = shouldFloat ? .floating : .normal
+        // load settings
+        window?.level = PreferencesController.shared.retrive(.floatingMagnifierWindow) ? .floating : .normal
     }
     
     func windowWillClose(_ notification: Notification) {
-        if DefaultsController.shared.retrive(.quitWhenClose) {
+        if PreferencesController.shared.retrive(.quitWhenClose) {
             NSApp.terminate(nil)
         }
     }
@@ -45,7 +45,7 @@ extension MagnifierWindowController: NSMenuItemValidation {
         let isFloating = window?.level == .some(.floating)
         window?.level = isFloating ? .normal : .floating
         
-        DefaultsController.shared.set(.floatingMagnifierWindow, to: !isFloating)
+        PreferencesController.shared.save(!isFloating, to: .floatingMagnifierWindow)
     }
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
