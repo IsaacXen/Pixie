@@ -138,7 +138,7 @@ final class MagnifierView: NSView {
                 _freezedY = mouseLocation.y
             }
             
-            let result = ScreenCapture.captureScreenImage(around: mouseLocation, rx: w, ry: h, ecluding: CGWindowID(windowID))
+            let result = ScreenCapture.captureScreen(around: mouseLocation, rX: w, rY: h, excluding: CGWindowID(windowID))
 
             _imageLayer.contents = result.image
                 

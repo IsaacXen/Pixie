@@ -4,7 +4,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     let magnifierWindowController = MagnifierWindowController()
-        
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         magnifierWindowController.showWindow(nil)
         

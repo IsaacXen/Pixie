@@ -10,21 +10,21 @@
 		FF7A58152359BD13002F4525 /* RoundedTooltipsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A58142359BD13002F4525 /* RoundedTooltipsLabel.swift */; };
 		FF7A58172359C464002F4525 /* MagnifierViewController+MenuItemActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7A58162359C464002F4525 /* MagnifierViewController+MenuItemActions.swift */; };
 		FF9C2F32236494C300BB6603 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FF9C2F34236494C300BB6603 /* Localizable.strings */; };
-		FFCDD17F2371B418000531EE /* PreferencesController in Frameworks */ = {isa = PBXBuildFile; productRef = FFCDD17E2371B418000531EE /* PreferencesController */; };
 		FFCDD1822371B488000531EE /* Preference+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCDD1812371B488000531EE /* Preference+Custom.swift */; };
 		FFCDD1852371BF12000531EE /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCDD1842371BF12000531EE /* ColorModel.swift */; };
 		FFDF89502352FDFF005877DC /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDF894F2352FDFF005877DC /* ScreenCapture.swift */; };
 		FFE98CAA236F1196007C19F0 /* AppDelegate+MouseItemActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE98CA9236F1196007C19F0 /* AppDelegate+MouseItemActions.swift */; };
 		FFE98CAC236F1DA0007C19F0 /* AppDelegate+MenuDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE98CAB236F1DA0007C19F0 /* AppDelegate+MenuDelegate.swift */; };
 		FFE98CAE236F2B53007C19F0 /* ColorValueController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE98CAD236F2B53007C19F0 /* ColorValueController.swift */; };
-		FFE98CB123703B15007C19F0 /* CocoaExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FFE98CB023703B15007C19F0 /* CocoaExtended */; };
-		FFE98CBB237140AB007C19F0 /* FoundationExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FFE98CBA237140AB007C19F0 /* FoundationExtended */; };
 		FFF3A047235091F100FF4110 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A046235091F100FF4110 /* AppDelegate.swift */; };
 		FFF3A049235091F100FF4110 /* MagnifierViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A048235091F100FF4110 /* MagnifierViewController.swift */; };
 		FFF3A04B235091F400FF4110 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFF3A04A235091F400FF4110 /* Assets.xcassets */; };
 		FFF3A04E235091F400FF4110 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFF3A04C235091F400FF4110 /* Main.storyboard */; };
 		FFF3A0572350AA4100FF4110 /* MagnifierWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A0562350AA4100FF4110 /* MagnifierWindowController.swift */; };
 		FFF3A05C235196C800FF4110 /* MagnifierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3A05B235196C800FF4110 /* MagnifierView.swift */; };
+		FFFF266B247A67C000B894F3 /* CocoaExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FFFF266A247A67C000B894F3 /* CocoaExtended */; };
+		FFFF266E247A6A6C00B894F3 /* FoundationExtended in Frameworks */ = {isa = PBXBuildFile; productRef = FFFF266D247A6A6C00B894F3 /* FoundationExtended */; };
+		FFFF2671247A6C8300B894F3 /* PreferencesController in Frameworks */ = {isa = PBXBuildFile; productRef = FFFF2670247A6C8300B894F3 /* PreferencesController */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,9 +54,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFE98CBB237140AB007C19F0 /* FoundationExtended in Frameworks */,
-				FFE98CB123703B15007C19F0 /* CocoaExtended in Frameworks */,
-				FFCDD17F2371B418000531EE /* PreferencesController in Frameworks */,
+				FFFF266E247A6A6C00B894F3 /* FoundationExtended in Frameworks */,
+				FFFF266B247A67C000B894F3 /* CocoaExtended in Frameworks */,
+				FFFF2671247A6C8300B894F3 /* PreferencesController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,9 +176,9 @@
 			);
 			name = Pixie;
 			packageProductDependencies = (
-				FFE98CB023703B15007C19F0 /* CocoaExtended */,
-				FFE98CBA237140AB007C19F0 /* FoundationExtended */,
-				FFCDD17E2371B418000531EE /* PreferencesController */,
+				FFFF266A247A67C000B894F3 /* CocoaExtended */,
+				FFFF266D247A6A6C00B894F3 /* FoundationExtended */,
+				FFFF2670247A6C8300B894F3 /* PreferencesController */,
 			);
 			productName = Pixie;
 			productReference = FFF3A043235091F100FF4110 /* Pixie.app */;
@@ -209,9 +209,9 @@
 			);
 			mainGroup = FFF3A03A235091F100FF4110;
 			packageReferences = (
-				FFE98CAF23703B15007C19F0 /* XCRemoteSwiftPackageReference "CocoaExtended" */,
-				FFE98CB9237140AB007C19F0 /* XCRemoteSwiftPackageReference "FoundationExtended" */,
-				FFCDD17D2371B418000531EE /* XCRemoteSwiftPackageReference "PreferencesController" */,
+				FFFF2669247A67C000B894F3 /* XCRemoteSwiftPackageReference "CocoaExtended" */,
+				FFFF266C247A6A6C00B894F3 /* XCRemoteSwiftPackageReference "FoundationExtended" */,
+				FFFF266F247A6C8300B894F3 /* XCRemoteSwiftPackageReference "PreferencesController" */,
 			);
 			productRefGroup = FFF3A044235091F100FF4110 /* Products */;
 			projectDirPath = "";
@@ -461,47 +461,47 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FFCDD17D2371B418000531EE /* XCRemoteSwiftPackageReference "PreferencesController" */ = {
+		FFFF2669247A67C000B894F3 /* XCRemoteSwiftPackageReference "CocoaExtended" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/ix4n33/Desktop/PreferencesController";
+			repositoryURL = "git@github.com:IsaacXen/CocoaExtended.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
 			};
 		};
-		FFE98CAF23703B15007C19F0 /* XCRemoteSwiftPackageReference "CocoaExtended" */ = {
+		FFFF266C247A6A6C00B894F3 /* XCRemoteSwiftPackageReference "FoundationExtended" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/ix4n33/Documents/gits/CocoaExtended";
+			repositoryURL = "git@github.com:IsaacXen/FoundationExtended.git";
 			requirement = {
-				branch = dev;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.6;
 			};
 		};
-		FFE98CB9237140AB007C19F0 /* XCRemoteSwiftPackageReference "FoundationExtended" */ = {
+		FFFF266F247A6C8300B894F3 /* XCRemoteSwiftPackageReference "PreferencesController" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/ix4n33/Documents/gits/FoundationExtended";
+			repositoryURL = "git@github.com:IsaacXen/PreferencesController.git";
 			requirement = {
-				branch = dev;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = "0.1.0-alpha.1";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FFCDD17E2371B418000531EE /* PreferencesController */ = {
+		FFFF266A247A67C000B894F3 /* CocoaExtended */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FFCDD17D2371B418000531EE /* XCRemoteSwiftPackageReference "PreferencesController" */;
-			productName = PreferencesController;
-		};
-		FFE98CB023703B15007C19F0 /* CocoaExtended */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FFE98CAF23703B15007C19F0 /* XCRemoteSwiftPackageReference "CocoaExtended" */;
+			package = FFFF2669247A67C000B894F3 /* XCRemoteSwiftPackageReference "CocoaExtended" */;
 			productName = CocoaExtended;
 		};
-		FFE98CBA237140AB007C19F0 /* FoundationExtended */ = {
+		FFFF266D247A6A6C00B894F3 /* FoundationExtended */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FFE98CB9237140AB007C19F0 /* XCRemoteSwiftPackageReference "FoundationExtended" */;
+			package = FFFF266C247A6A6C00B894F3 /* XCRemoteSwiftPackageReference "FoundationExtended" */;
 			productName = FoundationExtended;
+		};
+		FFFF2670247A6C8300B894F3 /* PreferencesController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FFFF266F247A6C8300B894F3 /* XCRemoteSwiftPackageReference "PreferencesController" */;
+			productName = PreferencesController;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

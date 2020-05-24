@@ -33,14 +33,22 @@ class ScreenCapture: NSObject {
         CGWindowListCreateImage(.infinite, .optionOnScreenOnly, kCGNullWindowID, [])
     }
     
-    static func captureScreenImage(around location: NSPoint, rx: CGFloat, ry: CGFloat, ecluding windowID: CGWindowID) -> Result {
+    
+    /// Capture a potion of screen as an image with a given center point, width, height, and excluding a widnow.
+    /// - Parameters:
+    ///   - centerPoint: The center origin of the rect on screen to capture.
+    ///   - rX: The horizontal radius of the result image. This should be half of the image width you want.
+    ///   - rY: The vertical radius of the result image. This should be half of the image height you want.
+    ///   - windowID: The id of window to exclude from the capture session.
+    /// - Returns: An `Result` struct containing the image and other convinence infomation.
+    static func captureScreen(around centerPoint: NSPoint, rX: CGFloat, rY: CGFloat, excluding windowID: CGWindowID) -> Result {
         guard
             let primaryScreen = NSScreen.screens.first,
             let info = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]]
             else { return Result(image: nil, mouseLocation: .zero, flippedMouseLocation: .zero) }
         
-        let mouseLocationPtInPrimaryTopLeft = NSMakePoint(location.x, primaryScreen.frame.maxY - location.y)
-        let captureRect = NSMakeRect(floor(mouseLocationPtInPrimaryTopLeft.x), floor(mouseLocationPtInPrimaryTopLeft.y), 1, 1).insetBy(dx: -rx, dy: -ry)
+        let mouseLocationPtInPrimaryTopLeft = NSMakePoint(centerPoint.x, primaryScreen.frame.maxY - centerPoint.y)
+        let captureRect = NSMakeRect(floor(mouseLocationPtInPrimaryTopLeft.x), floor(mouseLocationPtInPrimaryTopLeft.y), 1, 1).insetBy(dx: -rX, dy: -rY)
                          
         let sortedIDs: [CGWindowID] = info.sorted {
             $0[kCGWindowLayer as String] as? CGWindowLevel ?? 0 > $1[kCGWindowLayer as String] as? CGWindowLevel ?? 0
@@ -59,10 +67,10 @@ class ScreenCapture: NSObject {
         
         if let image = CGImage(windowListFromArrayScreenBounds: captureRect, windowArray: windows, imageOption: []) {
             let imageScale = CGFloat(image.width) / captureRect.width
-            return Result(image: image, mouseLocation: location, flippedMouseLocation: mouseLocationPtInPrimaryTopLeft, imageScaleFactor: imageScale)
+            return Result(image: image, mouseLocation: centerPoint, flippedMouseLocation: mouseLocationPtInPrimaryTopLeft, imageScaleFactor: imageScale)
         }
         
-        return Result(image: nil, mouseLocation: location, flippedMouseLocation: mouseLocationPtInPrimaryTopLeft)
+        return Result(image: nil, mouseLocation: centerPoint, flippedMouseLocation: mouseLocationPtInPrimaryTopLeft)
     }
 
     struct Result {
