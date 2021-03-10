@@ -1,3 +1,8 @@
+
+Apple updated their Xcode Developer Tools (YES!), this repo is now archived.
+
+---
+
 <p align="center">
     <img src="Pixie/Supporting Files/Assets.xcassets/AppIcon.appiconset/AppIcon_256@2x.png" alt="Pixie" />
     <br/>
